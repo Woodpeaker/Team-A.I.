@@ -2,10 +2,8 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import pandas as pd
 
+df = pd.read_csv('drug200.csv')
 
-
-from sklearn.feature_extraction.text import CountVectorizer
-vectorizer = CountVectorizer()
-
-
+print(df.to_string())
