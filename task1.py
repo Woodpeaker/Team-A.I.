@@ -17,11 +17,9 @@ vectorizer = CountVectorizer(encoding='latin-1')
 X_vectorized = vectorizer.fit_transform(X_data)
 X = X_vectorized.toarray()
 dictionary = vectorizer.get_feature_names_out()
-# print(vectorizer.get_feature_names_out())
-# print(X)
 
 # 5)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=None)
+X_train, X_test, y_train, y_test = train_test_split(X_data, y, test_size=0.20, random_state=None)
 
 # 6)
 clf = MultinomialNB()
