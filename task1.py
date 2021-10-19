@@ -205,7 +205,7 @@ with open("bbc-performance.txt", 'a') as file:
     file.write("Log-prob of the word 'oil' = " + str(logProb2) + "\n")
 
 # 9)
-clf = MultinomialNB(alpha=0.0001)
+clf = MultinomialNB(alpha=0.9)
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
 with open("bbc-performance.txt",'a') as file:

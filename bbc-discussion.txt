@@ -1,0 +1,11 @@
+What metric is best suited to this dataset/task and why (see step (2))?
+
+In the code, we have minimal differences between the smoothing and non-smoothing results. However, we have concluded that the smoothing is a better metric because it will not completely rule out a class just in case of a word appearing zero times in that specific class. The accuracy improves with the smoothing.
+
+Why are the performance of steps (8-10) the same or are different than those of step (7) above?
+
+For step 8, given that the default values were unchanged, the results remained the same.
+
+For step 9, the results were practically the same since the smoothing value was set to 0.0001. Thus, not having much of a difference on the words with a probability of zero. The results are negligible.
+
+For step 10, with the smoothing of 0.9, the accuracy has improved as opposed to the smoothing of 0.0001 or without smoothing. The smoothing of 0.9 had made a significant difference in the results.

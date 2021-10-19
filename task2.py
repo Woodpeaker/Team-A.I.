@@ -177,9 +177,9 @@ with open('drugs-performance.txt','a') as file:
     file.write("Average accuracy = "+str(avgAc)+'\n')
     file.write("Average f1 score (macro) = "+str(avgF1m)+'\n')
     file.write("Average fi score (weighted) = "+str(avgF1w)+'\n')
-    file.write("Standar deviation accuracy = "+str(stdAc)+'\n')
-    file.write("Standar deviation f1 score (macro) = "+str(stdF1m)+'\n')
-    file.write("Standar deviation fi score (weighted) = "+str(stdF1w)+'\n')
+    file.write("Standard deviation accuracy = "+str(stdAc)+'\n')
+    file.write("Standard deviation f1 score (macro) = "+str(stdF1m)+'\n')
+    file.write("Standard deviation fi score (weighted) = "+str(stdF1w)+'\n')
 
 arrayAc =[]
 arrayF1m =[]
@@ -201,9 +201,9 @@ with open('drugs-performance.txt','a') as file:
     file.write("Average accuracy = "+str(avgAc)+'\n')
     file.write("Average f1 score (macro) = "+str(avgF1m)+'\n')
     file.write("Average fi score (weighted) = "+str(avgF1w)+'\n')
-    file.write("Standar deviation accuracy = "+str(stdAc)+'\n')
-    file.write("Standar deviation f1 score (macro) = "+str(stdF1m)+'\n')
-    file.write("Standar deviation fi score (weighted) = "+str(stdF1w)+'\n')
+    file.write("Standard deviation accuracy = "+str(stdAc)+'\n')
+    file.write("Standard deviation f1 score (macro) = "+str(stdF1m)+'\n')
+    file.write("Standard deviation fi score (weighted) = "+str(stdF1w)+'\n')
 
 param = {
     'criterion': ['gini', 'entropy'],
@@ -230,9 +230,9 @@ with open('drugs-performance.txt','a') as file:
     file.write("Average accuracy = "+str(avgAc)+'\n')
     file.write("Average f1 score (macro) = "+str(avgF1m)+'\n')
     file.write("Average fi score (weighted) = "+str(avgF1w)+'\n')
-    file.write("Standar deviation accuracy = "+str(stdAc)+'\n')
-    file.write("Standar deviation f1 score (macro) = "+str(stdF1m)+'\n')
-    file.write("Standar deviation fi score (weighted) = "+str(stdF1w)+'\n')
+    file.write("Standard deviation accuracy = "+str(stdAc)+'\n')
+    file.write("Standard deviation f1 score (macro) = "+str(stdF1m)+'\n')
+    file.write("Standard deviation fi score (weighted) = "+str(stdF1w)+'\n')
 
 arrayAc =[]
 arrayF1m =[]
@@ -254,9 +254,9 @@ with open('drugs-performance.txt','a') as file:
     file.write("Average accuracy = "+str(avgAc)+'\n')
     file.write("Average f1 score (macro) = "+str(avgF1m)+'\n')
     file.write("Average fi score (weighted) = "+str(avgF1w)+'\n')
-    file.write("Standar deviation accuracy = "+str(stdAc)+'\n')
-    file.write("Standar deviation f1 score (macro) = "+str(stdF1m)+'\n')
-    file.write("Standar deviation fi score (weighted) = "+str(stdF1w)+'\n')
+    file.write("Standard deviation accuracy = "+str(stdAc)+'\n')
+    file.write("Standard deviation f1 score (macro) = "+str(stdF1m)+'\n')
+    file.write("Standard deviation fi score (weighted) = "+str(stdF1w)+'\n')
 
 arrayAc =[]
 arrayF1m =[]
@@ -278,9 +278,9 @@ with open('drugs-performance.txt','a') as file:
     file.write("Average accuracy = "+str(avgAc)+'\n')
     file.write("Average f1 score (macro) = "+str(avgF1m)+'\n')
     file.write("Average fi score (weighted) = "+str(avgF1w)+'\n')
-    file.write("Standar deviation accuracy = "+str(stdAc)+'\n')
-    file.write("Standar deviation f1 score (macro) = "+str(stdF1m)+'\n')
-    file.write("Standar deviation fi score (weighted) = "+str(stdF1w)+'\n')
+    file.write("Standard deviation accuracy = "+str(stdAc)+'\n')
+    file.write("Standard deviation f1 score (macro) = "+str(stdF1m)+'\n')
+    file.write("Standard deviation fi score (weighted) = "+str(stdF1w)+'\n')
 
 param = {
     'hidden_layer_sizes': [(30,50), (10,10,10)],
@@ -307,8 +307,8 @@ with open('drugs-performance.txt','a') as file:
     file.write("Average accuracy = "+str(avgAc)+'\n')
     file.write("Average f1 score (macro) = "+str(avgF1m)+'\n')
     file.write("Average fi score (weighted) = "+str(avgF1w)+'\n')
-    file.write("Standar deviation accuracy = "+str(stdAc)+'\n')
-    file.write("Standar deviation f1 score (macro) = "+str(stdF1m)+'\n')
-    file.write("Standar deviation fi score (weighted) = "+str(stdF1w)+'\n')
+    file.write("Standard deviation accuracy = "+str(stdAc)+'\n')
+    file.write("Standard deviation f1 score (macro) = "+str(stdF1m)+'\n')
+    file.write("Standard deviation fi score (weighted) = "+str(stdF1w)+'\n')
 
 
