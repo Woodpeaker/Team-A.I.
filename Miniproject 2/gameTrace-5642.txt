@@ -1,0 +1,128 @@
+n = 5, b = 6, s = 4, t = 2
+TODO: Position of the blocks (Show array of coordinate)
+PLayer 1: AI (TODO: d = depth of search) (TODO: a = algo?) (TODO: e1 = heuristic?)
+PLayer 2: AI (TODO: d = depth of search) (TODO: a = algo?) (TODO: e1 = heuristic?)
+
+  ABC
+ +---
+0|...
+1|...
+2|...
+
+Player X under AI control plays: x = 0, y = 0
+
+i	Evaluation time: 0.083534s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 1: 
+
+  ABC
+ +---
+0|X..
+1|...
+2|...
+
+Player O under AI control plays: x = 1, y = 1
+
+i	Evaluation time: 0.0166688s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 2: 
+
+  ABC
+ +---
+0|X..
+1|.O.
+2|...
+
+Player X under AI control plays: x = 0, y = 1
+
+i	Evaluation time: 0.0s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 3: 
+
+  ABC
+ +---
+0|XX.
+1|.O.
+2|...
+
+Player O under AI control plays: x = 0, y = 2
+
+i	Evaluation time: 0.0s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 4: 
+
+  ABC
+ +---
+0|XXO
+1|.O.
+2|...
+
+Player X under AI control plays: x = 2, y = 0
+
+i	Evaluation time: 0.0s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 5: 
+
+  ABC
+ +---
+0|XXO
+1|.O.
+2|X..
+
+Player O under AI control plays: x = 1, y = 0
+
+i	Evaluation time: 0.0s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 6: 
+
+  ABC
+ +---
+0|XXO
+1|OO.
+2|X..
+
+Player X under AI control plays: x = 1, y = 2
+
+i	Evaluation time: 0.0s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 7: 
+
+  ABC
+ +---
+0|XXO
+1|OOX
+2|X..
+
+Player O under AI control plays: x = 2, y = 1
+
+i	Evaluation time: 0.0s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 8: 
+
+  ABC
+ +---
+0|XXO
+1|OOX
+2|XO.
+
+Player X under AI control plays: x = 2, y = 2
+
+i	Evaluation time: 0.0s
+TODO:Evaluation for (ii), (iii), (iv) and (v)
+
+move 9: 
+
+  ABC
+ +---
+0|XXO
+1|OOX
+2|XOX
+

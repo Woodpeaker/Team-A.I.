@@ -40,7 +40,7 @@ clf.fit(X_train, y_train)
 
 # 7)
 y_pred = clf.predict(X_test)
-with open("bbc-performance.txt",'a') as file:
+with open("bbc-performance.txt", 'a') as file:
     file.write('**************MultinomialNB default values, try 1**************\n')
     file.write(str(confusion_matrix(y_test, y_pred))+'\n')
     file.write(str(classification_report(y_test, y_pred, target_names=corpus.target_names))+'\n')
@@ -59,17 +59,17 @@ sumCountCorpus = clf.feature_count_
 idx=0
 for sumClass in sumCountCorpus:
     sum = np.sum(sumClass)
-    with open("bbc-performance.txt",'a') as file:
+    with open("bbc-performance.txt", 'a') as file:
         file.write(corpus.target_names[idx]+" class word-token count ="+str(sum)+'\n')
     idx+=1
 
 sumCorpus = np.sum(sumCountCorpus)
-with open("bbc-performance.txt",'a') as file:
+with open("bbc-performance.txt", 'a') as file:
     file.write("Corpus word-token count = "+str(sumCorpus)+'\n')
 
 idx=0
 for sumClass in sumCountCorpus:
-    with open("bbc-performance.txt",'a') as file:
+    with open("bbc-performance.txt", 'a') as file:
         file.write("Number of word with 0 frequency in "+corpus.target_names[idx]+" = "+str(np.count_nonzero(sumClass==0))+"\n")
         file.write("Percentage of word with 0 frequency in "+corpus.target_names[idx]+" = "+str(100*np.count_nonzero(sumClass==0)/dictionary.size)+" %\n")
 
@@ -86,7 +86,7 @@ for sumClass in sumCountCorpus:
     sum2 += sumClass[index2]
 logProb1 = math.log(sum1/sumCorpus)
 logProb2 = math.log(sum2/sumCorpus)
-with open("bbc-performance.txt",'a') as file:
+with open("bbc-performance.txt", 'a') as file:
     file.write("Log-prob of the word 'bought' = "+str(logProb1)+"\n")
     file.write("Log-prob of the word 'oil' = "+str(logProb2)+"\n")
 
@@ -94,7 +94,7 @@ with open("bbc-performance.txt",'a') as file:
 clf = MultinomialNB()
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
-with open("bbc-performance.txt",'a') as file:
+with open("bbc-performance.txt", 'a') as file:
     file.write('\n**************MultinomialNB default values, try 2**************\n')
     file.write(str(confusion_matrix(y_test, y_pred)) + '\n')
     file.write(str(classification_report(y_test, y_pred, target_names=corpus.target_names)) + '\n')
@@ -151,7 +151,7 @@ with open("bbc-performance.txt", 'a') as file:
 clf = MultinomialNB(alpha=0.0001)
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
-with open("bbc-performance.txt",'a') as file:
+with open("bbc-performance.txt", 'a') as file:
     file.write('\n**************MultinomialNB smoothing value of 0.0001, try 3**************\n')
     file.write(str(confusion_matrix(y_test, y_pred)) + '\n')
     file.write(str(classification_report(y_test, y_pred, target_names=corpus.target_names)) + '\n')
@@ -208,7 +208,7 @@ with open("bbc-performance.txt", 'a') as file:
 clf = MultinomialNB(alpha=0.9)
 clf.fit(X_train, y_train)
 y_pred = clf.predict(X_test)
-with open("bbc-performance.txt",'a') as file:
+with open("bbc-performance.txt", 'a') as file:
     file.write('\n**************MultinomialNB smoothing value of 0.9, try 4**************\n')
     file.write(str(confusion_matrix(y_test, y_pred)) + '\n')
     file.write(str(classification_report(y_test, y_pred, target_names=corpus.target_names)) + '\n')

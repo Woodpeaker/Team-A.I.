@@ -65,7 +65,7 @@ cr = classification_report(y_test, y_pred, target_names=df_category.categories)
 ac =accuracy_score(y_test, y_pred)
 f1m=f1_score(y_test, y_pred, average='macro')
 f1w=f1_score(y_test, y_pred, average='weighted')
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write('**************NB**************\n')
     file.write(str(cm)+'\n')
     file.write(str(cr)+'\n')
@@ -79,7 +79,7 @@ cr = classification_report(y_test, y_pred, target_names=df_category.categories)
 ac =accuracy_score(y_test, y_pred)
 f1m=f1_score(y_test, y_pred, average='macro')
 f1w=f1_score(y_test, y_pred, average='weighted')
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write('\n**************Base DT**************\n')
     file.write(str(cm)+'\n')
     file.write(str(cr)+'\n')
@@ -99,7 +99,7 @@ cr = classification_report(y_test, y_pred, target_names=df_category.categories)
 ac =accuracy_score(y_test, y_pred)
 f1m=f1_score(y_test, y_pred, average='macro')
 f1w=f1_score(y_test, y_pred, average='weighted')
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write('\n**************Top DT**************\n')
     file.write(str(grid.best_params_)+'\n')
     file.write(str(cm)+'\n')
@@ -114,7 +114,7 @@ cr = classification_report(y_test, y_pred, target_names=df_category.categories)
 ac =accuracy_score(y_test, y_pred)
 f1m=f1_score(y_test, y_pred, average='macro')
 f1w=f1_score(y_test, y_pred, average='weighted')
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write('\n**************Perceptron**************\n')
     file.write(str(cm)+'\n')
     file.write(str(cr)+'\n')
@@ -128,7 +128,7 @@ cr = classification_report(y_test, y_pred, target_names=df_category.categories)
 ac =accuracy_score(y_test, y_pred)
 f1m=f1_score(y_test, y_pred, average='macro')
 f1w=f1_score(y_test, y_pred, average='weighted')
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write('\n**************BASE-MLP,hidden_layer_sizes: 100, activation: logistic, solver: sgd**************\n')
     file.write(str(cm)+'\n')
     file.write(str(cr)+'\n')
@@ -148,7 +148,7 @@ cr = classification_report(y_test, y_pred, target_names=df_category.categories)
 ac =accuracy_score(y_test, y_pred)
 f1m=f1_score(y_test, y_pred, average='macro')
 f1w=f1_score(y_test, y_pred, average='weighted')
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write('\n**************Top MLP*************\n')
     file.write(str(grid.best_params_)+'\n')
     file.write(str(cm)+'\n')
@@ -171,7 +171,7 @@ avgF1m= statistics.mean(arrayF1m)
 stdF1m = numpy.std(arrayF1m)
 avgF1w= statistics.mean(arrayF1w)
 stdF1w = numpy.std(arrayF1w)
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write("\n************************************************\n")
     file.write("Running GaussianNB 10 times:\n")
     file.write("Average accuracy = "+str(avgAc)+'\n')
@@ -195,7 +195,7 @@ avgF1m= statistics.mean(arrayF1m)
 stdF1m = numpy.std(arrayF1m)
 avgF1w= statistics.mean(arrayF1w)
 stdF1w = numpy.std(arrayF1w)
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write("\n************************************************\n")
     file.write("Running DecisionTreeClassifier 10 times:\n")
     file.write("Average accuracy = "+str(avgAc)+'\n')
@@ -224,7 +224,7 @@ avgF1m= statistics.mean(arrayF1m)
 stdF1m = numpy.std(arrayF1m)
 avgF1w= statistics.mean(arrayF1w)
 stdF1w = numpy.std(arrayF1w)
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write("\n************************************************\n")
     file.write("Running GridSearchCV - DecisionTreeClassifier 10 times:\n")
     file.write("Average accuracy = "+str(avgAc)+'\n')
@@ -248,7 +248,7 @@ avgF1m= statistics.mean(arrayF1m)
 stdF1m = numpy.std(arrayF1m)
 avgF1w= statistics.mean(arrayF1w)
 stdF1w = numpy.std(arrayF1w)
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write("\n************************************************\n")
     file.write("Running Perceptron 10 times:\n")
     file.write("Average accuracy = "+str(avgAc)+'\n')
@@ -272,7 +272,7 @@ avgF1m= statistics.mean(arrayF1m)
 stdF1m = numpy.std(arrayF1m)
 avgF1w= statistics.mean(arrayF1w)
 stdF1w = numpy.std(arrayF1w)
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write("\n************************************************\n")
     file.write("Running MLPClassifier 10 times:\n")
     file.write("Average accuracy = "+str(avgAc)+'\n')
@@ -301,7 +301,7 @@ avgF1m= statistics.mean(arrayF1m)
 stdF1m = numpy.std(arrayF1m)
 avgF1w= statistics.mean(arrayF1w)
 stdF1w = numpy.std(arrayF1w)
-with open('drugs-performance.txt','a') as file:
+with open('drugs-performance.txt', 'a') as file:
     file.write("\n************************************************\n")
     file.write("Running GridSearchCV - MLPClassifier 10 times:\n")
     file.write("Average accuracy = "+str(avgAc)+'\n')

@@ -1,5 +1,5 @@
 # based on code from https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python
-
+import string
 import time
 
 class Game:
@@ -19,13 +19,28 @@ class Game:
 		# Player X always plays first
 		self.player_turn = 'X'
 
-	def draw_board(self):
+	def draw_board(self,n=3,file=open("gameTraceJunk.txt",'w')):
+		letters = list(string.ascii_uppercase)
 		print()
 		for y in range(0, 3):
 			for x in range(0, 3):
 				print(F'{self.current_state[x][y]}', end="")
 			print()
 		print()
+		if not file.closed:
+			file.write('\n  ')
+			for i in range(0, 3):
+				file.write(letters[i])
+			file.write('\n +')
+			for i in range(0, 3):
+				file.write('-')
+			file.write('\n')
+			for i in range(0, 3):
+				file.write(str(i)+'|')
+				for j in range(0, 3):
+					file.write(F'{self.current_state[i][j]}')
+				file.write('\n')
+			file.write('\n')
 		
 	def is_valid(self, px, py):
 		if px < 0 or px > 2 or py < 0 or py > 2:
@@ -185,15 +200,38 @@ class Game:
 							beta = value
 		return (value, x, y)
 
-	def play(self,algo=None,player_x=None,player_o=None):
+	def play(self,algo=None,player_x=None,player_o=None,n=3,b=0,s=3,t=2):
+		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
+		letters = list(string.ascii_uppercase)
+		file = open(fileStr, 'w')
+		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
+		file.write(F'TODO: Position of the blocks (Show array of coordinate)\n')
+		file.write('PLayer 1: ')
+		if player_x == self.AI:
+			file.write('AI ')
+		else:
+			file.write('Human ')
+		file.write(F'(TODO: d = depth of search) ')
+		file.write(F'(TODO: a = algo?) ')
+		file.write(F'(TODO: e1 = heuristic?)\n')
+		file.write('PLayer 2: ')
+		if player_o == self.AI:
+			file.write('AI ')
+		else:
+			file.write('Human ')
+		file.write(F'(TODO: d = depth of search) ')
+		file.write(F'(TODO: a = algo?) ')
+		file.write(F'(TODO: e1 = heuristic?)\n')
 		if algo == None:
 			algo = self.ALPHABETA
 		if player_x == None:
 			player_x = self.HUMAN
 		if player_o == None:
 			player_o = self.HUMAN
+		moveCounter = 0
 		while True:
-			self.draw_board()
+			moveCounter += 1
+			self.draw_board(n=n,file=file)
 			if self.check_end():
 				return
 			start = time.time()
@@ -216,13 +254,17 @@ class Game:
 			if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
 						print(F'Evaluation time: {round(end - start, 7)}s')
 						print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
+			file.write(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}\n\n')
+			file.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
+			file.write('TODO:Evaluation for (ii), (iii), (iv) and (v)\n\n')
+			file.write(F'move {moveCounter}: \n')
 			self.current_state[x][y] = self.player_turn
 			self.switch_player()
 
 def main():
 	g = Game(recommend=True)
-	g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
-	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.HUMAN)
+	g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
+	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI)
 
 if __name__ == "__main__":
 	main()
