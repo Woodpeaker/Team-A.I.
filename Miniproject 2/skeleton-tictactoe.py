@@ -7,7 +7,8 @@ class Game:
 	ALPHABETA = 1
 	HUMAN = 2
 	AI = 3
-	
+	SIMPLE_HEURISTIC = 4
+	COMPLICATED_HEURISTIC = 5
 	def __init__(self, recommend = True):
 		self.initialize_game()
 		self.recommend = recommend
@@ -112,42 +113,99 @@ class Game:
 			self.player_turn = 'X'
 		return self.player_turn
 
-	def minimax(self, max=False):
+	def simple_heuristic(self):
+		hScore = 0
+		for row in range(0, 3):
+			for col in range(0, 3):
+				if self.current_state[row][col] == '0':
+					hScore += 1
+				if row < 2:
+					if self.current_state[row + 1][col] == 'X':
+						hScore += 2
+				if col < 2:
+					if self.current_state[row][col + 1] == 'X':
+						hScore += 2
+				if row > 0:
+					if self.current_state[row - 1][col] == 'X':
+						hScore += 2
+				if col > 0:
+					if self.current_state[row][col - 1] == 'X':
+						hScore += 2
+		return hScore
+
+	def complicated_heuristic(self):
+		hScore = 0
+		for row in range(0, 3):
+			for col in range(0, 3):
+				if self.current_state[row][col] == '0':
+					hScore += 1
+				if row < 2:
+					if self.current_state[row + 1][col] == 'X':
+						hScore += 2
+				if col < 2:
+					if self.current_state[row][col + 1] == 'X':
+						hScore += 2
+				if row > 0:
+					if self.current_state[row - 1][col] == 'X':
+						hScore += 2
+				if col > 0:
+					if self.current_state[row][col - 1] == 'X':
+						hScore += 2
+		return hScore
+
+	def minimax(self, max=False,maxDepth=4,depth=0):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
 		# 0  - a tie
 		# 1  - loss for 'X'
 		# We're initially setting it to 2 or -2 as worse than the worst case:
-		value = 2
+		value = 100
 		if max:
-			value = -2
+			value = 0
 		x = None
 		y = None
-		result = self.is_end()
-		if result == 'X':
-			return (-1, x, y)
-		elif result == 'O':
-			return (1, x, y)
-		elif result == '.':
-			return (0, x, y)
+		if depth == maxDepth:
+			value = self.simple_heuristic()
+		else:
+			result = self.is_end()
+			if result == 'X':
+				return (-1, x, y)
+			elif result == 'O':
+				return (1, x, y)
+			elif result == '.':
+				return (0, x, y)
 		for i in range(0, 3):
 			for j in range(0, 3):
 				if self.current_state[i][j] == '.':
 					if max:
 						self.current_state[i][j] = 'O'
-						(v, _, _) = self.minimax(max=False)
-						if v > value:
-							value = v
+						if depth == maxDepth:
+							value = self.simple_heuristic()
 							x = i
 							y = j
+							self.current_state[i][j] = '.'
+							return (value, x, y)
+						else:
+							(v, _, _) = self.minimax(max=False,depth=depth+1)
+							if v > value:
+								value = v
+								x = i
+								y = j
 					else:
 						self.current_state[i][j] = 'X'
-						(v, _, _) = self.minimax(max=True)
-						if v < value:
-							value = v
+						if depth == maxDepth:
+							value = self.simple_heuristic()
 							x = i
 							y = j
+							self.current_state[i][j] = '.'
+							return (value, x, y)
+						else:
+							(v, _, _) = self.minimax(max=True,depth=depth+1)
+							if v < value:
+								value = v
+								x = i
+								y = j
 					self.current_state[i][j] = '.'
 		return (value, x, y)
 
@@ -200,7 +258,7 @@ class Game:
 							beta = value
 		return (value, x, y)
 
-	def play(self,algo=None,player_x=None,player_o=None,n=3,b=0,s=3,t=2):
+	def play(self,algo=None,player_x=None,player_o=None,e1=None,e2=None,depth=None,n=3,b=0,s=3,t=2):
 		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
 		letters = list(string.ascii_uppercase)
 		file = open(fileStr, 'w')
@@ -211,9 +269,15 @@ class Game:
 			file.write('AI ')
 		else:
 			file.write('Human ')
-		file.write(F'(TODO: d = depth of search) ')
-		file.write(F'(TODO: a = algo?) ')
-		file.write(F'(TODO: e1 = heuristic?)\n')
+		file.write(F'd = {depth} ')
+		if algo == self.MINIMAX:
+			file.write(F'a = MINMAX ')
+		else:
+			file.write(F'a = ALPHABETA ')
+		if e1 == self.SIMPLE_HEURISTIC:
+			file.write(F'e1 = SIMPLE_HEURISTIC\n')
+		else:
+			file.write(F'e1 = COMPLICATED_HEURISTIC\n')
 		file.write('PLayer 2: ')
 		if player_o == self.AI:
 			file.write('AI ')
@@ -221,7 +285,7 @@ class Game:
 			file.write('Human ')
 		file.write(F'(TODO: d = depth of search) ')
 		file.write(F'(TODO: a = algo?) ')
-		file.write(F'(TODO: e1 = heuristic?)\n')
+		file.write(F'(TODO: e2 = heuristic?)\n')
 		if algo == None:
 			algo = self.ALPHABETA
 		if player_x == None:
@@ -240,11 +304,18 @@ class Game:
 					(_, x, y) = self.minimax(max=False)
 				else:
 					(_, x, y) = self.minimax(max=True)
+				print(f'h(n) = {_}')
 			else: # algo == self.ALPHABETA
 				if self.player_turn == 'X':
 					(m, x, y) = self.alphabeta(max=False)
 				else:
 					(m, x, y) = self.alphabeta(max=True)
+			if x == None or y == None:
+				for i in range(0, 3):
+					for j in range(0, 3):
+						if self.current_state[i][j] == '.':
+							x = i
+							y = j
 			end = time.time()
 			if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
 					if self.recommend:
@@ -263,8 +334,8 @@ class Game:
 
 def main():
 	g = Game(recommend=True)
+	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,depth=5,e1=Game.SIMPLE_HEURISTIC)
 	g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
-	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI)
 
 if __name__ == "__main__":
 	main()
