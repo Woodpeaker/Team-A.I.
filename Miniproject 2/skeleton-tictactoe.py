@@ -83,7 +83,7 @@ class Game:
 		# It's a tie!
 		return '.'
 
-	def check_end(self,file=None):
+	def check_end(self, file=None):
 		self.result = self.is_end()
 		# Printing the appropriate message if the game has ended
 		if self.result != None:
@@ -95,7 +95,7 @@ class Game:
 				file.write('The winner is O!\n')
 			elif self.result == '.':
 				print("It's a tie!")
-				file.write("It's a tie!\n")
+				file.write("It's a tie!\n\n")
 			self.initialize_game()
 		return self.result
 
@@ -118,55 +118,68 @@ class Game:
 
 	def simple_heuristic(self):
 		hScore = 0
-		for row in range(0, 3):
-			for col in range(0, 3):
-				if self.current_state[row][col] == '0':
-					hScore += 1
+		for col in range(0, 3):
+			for row in range(0, 3):
+				if self.current_state[row][col] == 'X':
+					hScore += 8
 				if row < 2:
-					if self.current_state[row + 1][col] == 'X':
-						hScore += 2
+					if self.current_state[row + 1][col] == 'O':
+						hScore -= 1
 				if col < 2:
-					if self.current_state[row][col + 1] == 'X':
-						hScore += 2
+					if self.current_state[row][col + 1] == 'O':
+						hScore -= 1
 				if row > 0:
-					if self.current_state[row - 1][col] == 'X':
-						hScore += 2
+					if self.current_state[row - 1][col] == 'O':
+						hScore -= 1
 				if col > 0:
-					if self.current_state[row][col - 1] == 'X':
-						hScore += 2
+					if self.current_state[row][col - 1] == 'O':
+						hScore -= 1
+				if col > 0 and row > 0:
+					if self.current_state[row - 1][col - 1] == 'O':
+						hScore -= 1
+				if col > 0 and row < 2:
+					if self.current_state[row + 1][col - 1] == 'O':
+						hScore -= 1
+				if col < 2 and row > 0:
+					if self.current_state[row - 1][col + 1] == 'O':
+						hScore -= 1
+				if col < 2 and row < 2:
+					if self.current_state[row + 1][col + 1] == 'O':
+						hScore -= 1
 		return hScore
 
 	def complicated_heuristic(self):
-		# TOD modify heuristic evaluation to a complicated one
 		hScore = 0
-		for col in range(0, 3):
-			for row in range(0, 3):
-				if self.current_state[row][col] == '0':
-					hScore += 2
-				if row < 2:
-					if self.current_state[row + 1][col] == 'X':
-						hScore -= 1
-				if col < 2:
-					if self.current_state[row][col + 1] == 'X':
-						hScore -= 1
-				if row > 0:
-					if self.current_state[row - 1][col] == 'X':
-						hScore -= 1
-				if col > 0:
-					if self.current_state[row][col - 1] == 'X':
-						hScore -= 1
-				if col > 0 and row > 0:
-					if self.current_state[row - 1][col - 1] == 'X':
-						hScore -= 1
-				if col > 0 and row < 2:
-					if self.current_state[row + 1][col - 1] == 'X':
-						hScore -= 1
-				if col < 2 and row > 0:
-					if self.current_state[row - 1][col + 1] == 'X':
-						hScore -= 1
-				if col < 2 and row < 2:
-					if self.current_state[row + 1][col + 1] == 'X':
-						hScore -= 1
+		# Vertical win
+		for i in range(0, 3):
+			if (self.current_state[0][i] != 'O' and
+					self.current_state[1][i] != 'O' and
+					self.current_state[2][i] != 'O'):
+				hScore += 100
+			else:
+				hScore -= 50
+		# Horizontal win
+		for i in range(0, 3):
+			if (self.current_state[i][0] != 'O' and
+					self.current_state[i][1] != 'O' and
+					self.current_state[i][2] != 'O'):
+				hScore += 100
+			else:
+				hScore -= 50
+		# Main diagonal win
+		if (self.current_state[0][0] != 'O' and
+				self.current_state[1][1] != 'O' and
+				self.current_state[2][2] != 'O'):
+			hScore += 100
+		else:
+			hScore -= 50
+		# Second diagonal win
+		if (self.current_state[0][2] != 'O' and
+				self.current_state[1][1] == 'O' and
+				self.current_state[2][0] == 'O'):
+			hScore += 100
+		else:
+			hScore -= 50
 		return hScore
 
 	def minimax(self, max=False,maxDepth=None,depth=0,e=None,count=0):
@@ -176,22 +189,30 @@ class Game:
 		# 0  - a tie
 		# 1  - loss for 'X'
 		# We're initially setting it to 2 or -2 as worse than the worst case:
-		value = 100
+		value = 2
 		if max:
-			value = 0
+			value = -2
+		if e == self.SIMPLE_HEURISTIC:
+			value = self.simple_heuristic()
+		elif e == self.COMPLICATED_HEURISTIC:
+			value = self.complicated_heuristic()
 		x = None
 		y = None
-		if depth == maxDepth and e == self.SIMPLE_HEURISTIC:
+		result = self.is_end()
+		if result != None and e == self.SIMPLE_HEURISTIC:
 			value = self.simple_heuristic()
 			count += 1
-		else:
-			result = self.is_end()
-			if result == 'X':
-				return (-1, x, y,count)
-			elif result == 'O':
-				return (1, x, y,count)
-			elif result == '.':
-				return (0, x, y,count)
+			return (value,x,y,count)
+		elif  result != None and e == self.COMPLICATED_HEURISTIC:
+			value = self.complicated_heuristic()
+			count += 1
+			return (value, x, y, count)
+		elif result == 'X':
+			return (-1, x, y,0)
+		elif result == 'O':
+			return (1, x, y,0)
+		elif result == '.':
+			return (0, x, y,0)
 		for i in range(0, 3):
 			for j in range(0, 3):
 				if self.current_state[i][j] == '.':
@@ -199,10 +220,18 @@ class Game:
 						self.current_state[i][j] = 'O'
 						if depth == maxDepth and e == self.SIMPLE_HEURISTIC:
 							value = self.simple_heuristic()
+							count += 1
 							x = i
 							y = j
 							self.current_state[i][j] = '.'
 							return (value, x, y,count)
+						elif depth == maxDepth and e == self.SIMPLE_HEURISTIC:
+							value = self.complicated_heuristic()
+							count += 1
+							x = i
+							y = j
+							self.current_state[i][j] = '.'
+							return (value, x, y, count)
 						else:
 							(v, _, _,c) = self.minimax(max=False,e=e,maxDepth=maxDepth,depth=depth+1)
 							count += c
@@ -214,10 +243,18 @@ class Game:
 						self.current_state[i][j] = 'X'
 						if depth == maxDepth and e == self.SIMPLE_HEURISTIC:
 							value = self.simple_heuristic()
+							count += 1
 							x = i
 							y = j
 							self.current_state[i][j] = '.'
 							return (value, x, y,count)
+						elif depth == maxDepth and e == self.SIMPLE_HEURISTIC:
+							value = self.complicated_heuristic()
+							count += 1
+							x = i
+							y = j
+							self.current_state[i][j] = '.'
+							return (value, x, y, count)
 						else:
 							(v, _, _,c) = self.minimax(max=True,e=e,maxDepth=maxDepth,depth=depth+1)
 							count += c
@@ -321,10 +358,18 @@ class Game:
 		if player_o == None:
 			player_o = self.HUMAN
 		moveCounter = 0
+		totalTime=0
+		totalEval=0
 		while True:
 			moveCounter += 1
 			self.draw_board(n=n,file=file)
 			if self.check_end(file=file):
+				file.write(F'6(b)i\tAverage evaluation time: {totalTime}s\n')
+				file.write(F'6(b)ii\tTotal heuristic evaluations: {totalEval}\n')
+				file.write(F'6(b)iii\tEvaluations by depth: {None}\n')
+				file.write(F'6(b)iv\tAverage evaluation depth: {None}\n')
+				file.write(F'6(b)v\tAverage recursion depth: {None}\n')
+				file.write(F'6(b)vi\tTotal moves: {moveCounter}\n')
 				return
 			start = time.time()
 			if algo == self.MINIMAX:
@@ -345,6 +390,9 @@ class Game:
 							x = i
 							y = j
 			end = time.time()
+			totalTime += round(end - start, 7)
+			totalTime = round(totalTime, 7)
+			totalEval += nbEval
 			if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
 					if self.recommend:
 						print(F'Evaluation time: {round(end - start, 7)}s')
@@ -360,11 +408,10 @@ class Game:
 			file.write(F'move {moveCounter}: \n')
 			self.current_state[x][y] = self.player_turn
 			self.switch_player()
-			return (x,y)
 
 def main():
 	g = Game(recommend=True)
-	(x,y) = g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,depth=5,e1=None,e2=Game.SIMPLE_HEURISTIC)
+	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,depth=5,e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC)
 	# g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
 
 
