@@ -182,7 +182,80 @@ class Game:
 			hScore -= 50
 		return hScore
 
-	def minimax(self, max=False,maxDepth=None,depth=0,e=None,count=0):
+	def minimax(self, max=False,maxDepth=None,depth=0,e=None,count=0,depthArray={}):
+		# Minimizing for 'X' and maximizing for 'O'
+		# Possible values are:
+		# -1 - win for 'X'
+		# 0  - a tie
+		# 1  - loss for 'X'
+		# We're initially setting it to 2 or -2 as worse than the worst case:
+		value = 2
+		if max:
+			value = -2
+		if e == self.SIMPLE_HEURISTIC:
+			value = self.simple_heuristic()
+		elif e == self.COMPLICATED_HEURISTIC:
+			value = self.complicated_heuristic()
+		x = None
+		y = None
+		result = self.is_end()
+		if result != None and e == self.SIMPLE_HEURISTIC:
+			value = self.simple_heuristic()
+			if depth in depthArray:
+				depthArray[depth] += 1
+			else:
+				depthArray[depth] = 1
+			count += 1
+			return (value,x,y,count)
+		elif  result != None and e == self.COMPLICATED_HEURISTIC:
+			value = self.complicated_heuristic()
+			count += 1
+			return (value, x, y, count)
+		elif result == 'X':
+			return (-1, x, y,0)
+		elif result == 'O':
+			return (1, x, y,0)
+		elif result == '.':
+			return (0, x, y,0)
+		for i in range(0, 3):
+			for j in range(0, 3):
+				if self.current_state[i][j] == '.':
+					if max:
+						self.current_state[i][j] = 'O'
+						if depth == maxDepth:
+							if e == self.SIMPLE_HEURISTIC:
+								v = self.simple_heuristic()
+								count += 1
+							elif e == self.COMPLICATED_HEURISTIC:
+								v = self.complicated_heuristic()
+								count += 1
+						else:
+							(v, _, _,c) = self.minimax(max=False,e=e,maxDepth=maxDepth,depth=depth+1)
+							count += c
+						if v > value:
+							value = v
+							x = i
+							y = j
+					else:
+						self.current_state[i][j] = 'X'
+						if depth == maxDepth:
+							if e == self.SIMPLE_HEURISTIC:
+								v = self.simple_heuristic()
+								count += 1
+							elif e == self.COMPLICATED_HEURISTIC:
+								v = self.complicated_heuristic()
+								count += 1
+						else:
+							(v, _, _, c) = self.minimax(max=True, e=e, maxDepth=maxDepth, depth=depth + 1)
+							count += c
+						if v < value:
+							value = v
+							x = i
+							y = j
+					self.current_state[i][j] = '.'
+		return (value, x, y, count)
+
+	def alphabeta(self, alpha=-2, beta=2, max=False,maxDepth=None,depth=0,e=None,count=0):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
@@ -202,101 +275,48 @@ class Game:
 		if result != None and e == self.SIMPLE_HEURISTIC:
 			value = self.simple_heuristic()
 			count += 1
-			return (value,x,y,count)
-		elif  result != None and e == self.COMPLICATED_HEURISTIC:
+			return (value, x, y, count)
+		elif result != None and e == self.COMPLICATED_HEURISTIC:
 			value = self.complicated_heuristic()
 			count += 1
 			return (value, x, y, count)
 		elif result == 'X':
-			return (-1, x, y,0)
+			return (-1, x, y, 0)
 		elif result == 'O':
-			return (1, x, y,0)
+			return (1, x, y, 0)
 		elif result == '.':
-			return (0, x, y,0)
+			return (0, x, y, 0)
 		for i in range(0, 3):
 			for j in range(0, 3):
 				if self.current_state[i][j] == '.':
 					if max:
 						self.current_state[i][j] = 'O'
-						if depth == maxDepth and e == self.SIMPLE_HEURISTIC:
-							value = self.simple_heuristic()
-							count += 1
-							x = i
-							y = j
-							self.current_state[i][j] = '.'
-							return (value, x, y,count)
-						elif depth == maxDepth and e == self.SIMPLE_HEURISTIC:
-							value = self.complicated_heuristic()
-							count += 1
-							x = i
-							y = j
-							self.current_state[i][j] = '.'
-							return (value, x, y, count)
+						if depth == maxDepth:
+							if e == self.SIMPLE_HEURISTIC:
+								v = self.simple_heuristic()
+								count += 1
+							elif e == self.COMPLICATED_HEURISTIC:
+								v = self.complicated_heuristic()
+								count += 1
 						else:
-							(v, _, _,c) = self.minimax(max=False,e=e,maxDepth=maxDepth,depth=depth+1)
+							(v, _, _, c) = self.alphabeta(max=False, e=e, maxDepth=maxDepth, depth=depth + 1)
 							count += c
-							if v > value:
-								value = v
-								x = i
-								y = j
-					else:
-						self.current_state[i][j] = 'X'
-						if depth == maxDepth and e == self.SIMPLE_HEURISTIC:
-							value = self.simple_heuristic()
-							count += 1
-							x = i
-							y = j
-							self.current_state[i][j] = '.'
-							return (value, x, y,count)
-						elif depth == maxDepth and e == self.SIMPLE_HEURISTIC:
-							value = self.complicated_heuristic()
-							count += 1
-							x = i
-							y = j
-							self.current_state[i][j] = '.'
-							return (value, x, y, count)
-						else:
-							(v, _, _,c) = self.minimax(max=True,e=e,maxDepth=maxDepth,depth=depth+1)
-							count += c
-							if v < value:
-								value = v
-								x = i
-								y = j
-					self.current_state[i][j] = '.'
-		return (value, x, y, count)
-
-	def alphabeta(self, alpha=-2, beta=2, max=False):
-		# Minimizing for 'X' and maximizing for 'O'
-		# Possible values are:
-		# -1 - win for 'X'
-		# 0  - a tie
-		# 1  - loss for 'X'
-		# We're initially setting it to 2 or -2 as worse than the worst case:
-		value = 2
-		if max:
-			value = -2
-		x = None
-		y = None
-		result = self.is_end()
-		if result == 'X':
-			return (-1, x, y)
-		elif result == 'O':
-			return (1, x, y)
-		elif result == '.':
-			return (0, x, y)
-		for i in range(0, 3):
-			for j in range(0, 3):
-				if self.current_state[i][j] == '.':
-					if max:
-						self.current_state[i][j] = 'O'
-						(v, _, _) = self.alphabeta(alpha, beta, max=False)
 						if v > value:
 							value = v
 							x = i
 							y = j
 					else:
 						self.current_state[i][j] = 'X'
-						(v, _, _) = self.alphabeta(alpha, beta, max=True)
+						if depth == maxDepth:
+							if e == self.SIMPLE_HEURISTIC:
+								v = self.simple_heuristic()
+								count += 1
+							elif e == self.COMPLICATED_HEURISTIC:
+								v = self.complicated_heuristic()
+								count += 1
+						else:
+							(v, _, _, c) = self.alphabeta(max=True, e=e, maxDepth=maxDepth, depth=depth + 1)
+							count += c
 						if v < value:
 							value = v
 							x = i
@@ -304,15 +324,15 @@ class Game:
 					self.current_state[i][j] = '.'
 					if max: 
 						if value >= beta:
-							return (value, x, y)
+							return (value, x, y,count)
 						if value > alpha:
 							alpha = value
 					else:
 						if value <= alpha:
-							return (value, x, y)
+							return (value, x, y,count)
 						if value < beta:
 							beta = value
-		return (value, x, y)
+		return (value, x, y,count)
 
 	def play(self,algo=None,player_x=None,player_o=None,e1=None,e2=None,depth=None,n=3,b=0,s=3,t=2):
 		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
@@ -380,9 +400,10 @@ class Game:
 				print(f'h(n) = {_}')
 			else: # algo == self.ALPHABETA
 				if self.player_turn == 'X':
-					(m, x, y) = self.alphabeta(max=False)
+					(m, x, y,nbEval) = self.alphabeta(max=False,e=e1,maxDepth=4)
 				else:
-					(m, x, y) = self.alphabeta(max=True)
+					(m, x, y,nbEval) = self.alphabeta(max=True,e=e2,maxDepth=4)
+				print(f'h(n) = {m}')
 			if x == None or y == None:
 				for i in range(0, 3):
 					for j in range(0, 3):
@@ -411,9 +432,10 @@ class Game:
 
 def main():
 	g = Game(recommend=True)
-	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,depth=5,e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC)
-	g.play(algo=Game.MINIMAX, player_x=Game.AI, player_o=Game.AI, depth=5, e1=Game.SIMPLE_HEURISTIC,e2=Game.SIMPLE_HEURISTIC,
-		   n=5, b=6, s=4, t=2)
+	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,
+		   depth=5,e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC)
+	g.play(algo=Game.ALPHABETA, player_x=Game.AI, player_o=Game.AI,
+		   depth=5, e1=Game.SIMPLE_HEURISTIC,e2=Game.SIMPLE_HEURISTIC,n=5, b=6, s=4, t=2)
 	# g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
 
 
