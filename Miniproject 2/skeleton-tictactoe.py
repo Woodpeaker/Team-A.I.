@@ -121,31 +121,31 @@ class Game:
 		for col in range(0, 3):
 			for row in range(0, 3):
 				if self.current_state[row][col] == 'X':
-					hScore += 8
+					hScore += 1
 				if row < 2:
 					if self.current_state[row + 1][col] == 'O':
-						hScore -= 1
+						hScore += 2
 				if col < 2:
 					if self.current_state[row][col + 1] == 'O':
-						hScore -= 1
+						hScore += 2
 				if row > 0:
 					if self.current_state[row - 1][col] == 'O':
-						hScore -= 1
+						hScore += 2
 				if col > 0:
 					if self.current_state[row][col - 1] == 'O':
-						hScore -= 1
+						hScore += 2
 				if col > 0 and row > 0:
 					if self.current_state[row - 1][col - 1] == 'O':
-						hScore -= 1
+						hScore += 2
 				if col > 0 and row < 2:
 					if self.current_state[row + 1][col - 1] == 'O':
-						hScore -= 1
+						hScore += 2
 				if col < 2 and row > 0:
 					if self.current_state[row - 1][col + 1] == 'O':
-						hScore -= 1
+						hScore += 2
 				if col < 2 and row < 2:
 					if self.current_state[row + 1][col + 1] == 'O':
-						hScore -= 1
+						hScore += 2
 		return hScore
 
 	def complicated_heuristic(self):
@@ -412,6 +412,8 @@ class Game:
 def main():
 	g = Game(recommend=True)
 	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,depth=5,e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC)
+	g.play(algo=Game.MINIMAX, player_x=Game.AI, player_o=Game.AI, depth=5, e1=Game.SIMPLE_HEURISTIC,e2=Game.SIMPLE_HEURISTIC,
+		   n=5, b=6, s=4, t=2)
 	# g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
 
 
