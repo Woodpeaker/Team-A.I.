@@ -20,7 +20,7 @@ class Game:
 		# Player X always plays first
 		self.player_turn = 'X'
 
-	def draw_board(self,n=3,file=open("gameTraceJunk.txt",'w')):
+	def draw_board(self,n=3,file=None):
 		letters = list(string.ascii_uppercase)
 		print()
 		for y in range(0, 3):
@@ -39,7 +39,7 @@ class Game:
 			for i in range(0, 3):
 				file.write(str(i)+'|')
 				for j in range(0, 3):
-					file.write(F'{self.current_state[i][j]}')
+					file.write(F'{self.current_state[j][i]}')
 				file.write('\n')
 			file.write('\n')
 		
@@ -83,16 +83,19 @@ class Game:
 		# It's a tie!
 		return '.'
 
-	def check_end(self):
+	def check_end(self,file=None):
 		self.result = self.is_end()
 		# Printing the appropriate message if the game has ended
 		if self.result != None:
 			if self.result == 'X':
 				print('The winner is X!')
+				file.write('The winner is X!\n')
 			elif self.result == 'O':
 				print('The winner is O!')
+				file.write('The winner is O!\n')
 			elif self.result == '.':
 				print("It's a tie!")
+				file.write("It's a tie!\n")
 			self.initialize_game()
 		return self.result
 
@@ -134,26 +137,39 @@ class Game:
 		return hScore
 
 	def complicated_heuristic(self):
+		# TOD modify heuristic evaluation to a complicated one
 		hScore = 0
-		for row in range(0, 3):
-			for col in range(0, 3):
+		for col in range(0, 3):
+			for row in range(0, 3):
 				if self.current_state[row][col] == '0':
-					hScore += 1
+					hScore += 2
 				if row < 2:
 					if self.current_state[row + 1][col] == 'X':
-						hScore += 2
+						hScore -= 1
 				if col < 2:
 					if self.current_state[row][col + 1] == 'X':
-						hScore += 2
+						hScore -= 1
 				if row > 0:
 					if self.current_state[row - 1][col] == 'X':
-						hScore += 2
+						hScore -= 1
 				if col > 0:
 					if self.current_state[row][col - 1] == 'X':
-						hScore += 2
+						hScore -= 1
+				if col > 0 and row > 0:
+					if self.current_state[row - 1][col - 1] == 'X':
+						hScore -= 1
+				if col > 0 and row < 2:
+					if self.current_state[row + 1][col - 1] == 'X':
+						hScore -= 1
+				if col < 2 and row > 0:
+					if self.current_state[row - 1][col + 1] == 'X':
+						hScore -= 1
+				if col < 2 and row < 2:
+					if self.current_state[row + 1][col + 1] == 'X':
+						hScore -= 1
 		return hScore
 
-	def minimax(self, max=False,maxDepth=4,depth=0,e=None):
+	def minimax(self, max=False,maxDepth=None,depth=0,e=None,count=0):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
@@ -165,49 +181,52 @@ class Game:
 			value = 0
 		x = None
 		y = None
-		if depth == maxDepth:
+		if depth == maxDepth and e == self.SIMPLE_HEURISTIC:
 			value = self.simple_heuristic()
+			count += 1
 		else:
 			result = self.is_end()
 			if result == 'X':
-				return (-1, x, y)
+				return (-1, x, y,count)
 			elif result == 'O':
-				return (1, x, y)
+				return (1, x, y,count)
 			elif result == '.':
-				return (0, x, y)
+				return (0, x, y,count)
 		for i in range(0, 3):
 			for j in range(0, 3):
 				if self.current_state[i][j] == '.':
 					if max:
 						self.current_state[i][j] = 'O'
-						if depth == maxDepth:
+						if depth == maxDepth and e == self.SIMPLE_HEURISTIC:
 							value = self.simple_heuristic()
 							x = i
 							y = j
 							self.current_state[i][j] = '.'
-							return (value, x, y)
+							return (value, x, y,count)
 						else:
-							(v, _, _) = self.minimax(max=False,depth=depth+1)
+							(v, _, _,c) = self.minimax(max=False,e=e,maxDepth=maxDepth,depth=depth+1)
+							count += c
 							if v > value:
 								value = v
 								x = i
 								y = j
 					else:
 						self.current_state[i][j] = 'X'
-						if depth == maxDepth:
+						if depth == maxDepth and e == self.SIMPLE_HEURISTIC:
 							value = self.simple_heuristic()
 							x = i
 							y = j
 							self.current_state[i][j] = '.'
-							return (value, x, y)
+							return (value, x, y,count)
 						else:
-							(v, _, _) = self.minimax(max=True,depth=depth+1)
+							(v, _, _,c) = self.minimax(max=True,e=e,maxDepth=maxDepth,depth=depth+1)
+							count += c
 							if v < value:
 								value = v
 								x = i
 								y = j
 					self.current_state[i][j] = '.'
-		return (value, x, y)
+		return (value, x, y, count)
 
 	def alphabeta(self, alpha=-2, beta=2, max=False):
 		# Minimizing for 'X' and maximizing for 'O'
@@ -260,7 +279,6 @@ class Game:
 
 	def play(self,algo=None,player_x=None,player_o=None,e1=None,e2=None,depth=None,n=3,b=0,s=3,t=2):
 		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
-		letters = list(string.ascii_uppercase)
 		file = open(fileStr, 'w')
 		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
 		file.write(F'TODO: Position of the blocks (Show array of coordinate)\n')
@@ -306,14 +324,14 @@ class Game:
 		while True:
 			moveCounter += 1
 			self.draw_board(n=n,file=file)
-			if self.check_end():
+			if self.check_end(file=file):
 				return
 			start = time.time()
 			if algo == self.MINIMAX:
 				if self.player_turn == 'X':
-					(_, x, y) = self.minimax(max=False,e=e1)
+					(_, x, y,nbEval) = self.minimax(max=False,e=e1,maxDepth=4)
 				else:
-					(_, x, y) = self.minimax(max=True,e=e1)
+					(_, x, y,nbEval) = self.minimax(max=True,e=e2,maxDepth=4)
 				print(f'h(n) = {_}')
 			else: # algo == self.ALPHABETA
 				if self.player_turn == 'X':
@@ -337,15 +355,18 @@ class Game:
 						print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
 			file.write(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}\n\n')
 			file.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
-			file.write('TODO:Evaluation for (ii), (iii), (iv) and (v)\n\n')
+			file.write(F'ii\tNumber of evaluated states {nbEval}: \n')
+			file.write('TODO:Evaluation for (iii), (iv) and (v)\n\n')
 			file.write(F'move {moveCounter}: \n')
 			self.current_state[x][y] = self.player_turn
 			self.switch_player()
+			return (x,y)
 
 def main():
 	g = Game(recommend=True)
-	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,depth=5,e1=Game.SIMPLE_HEURISTIC)
+	(x,y) = g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,depth=5,e1=None,e2=Game.SIMPLE_HEURISTIC)
 	# g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
+
 
 if __name__ == "__main__":
 	main()
