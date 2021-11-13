@@ -153,7 +153,7 @@ class Game:
 						hScore += 2
 		return hScore
 
-	def minimax(self, max=False,maxDepth=4,depth=0):
+	def minimax(self, max=False,maxDepth=4,depth=0,e=None):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
@@ -276,16 +276,26 @@ class Game:
 			file.write(F'a = ALPHABETA ')
 		if e1 == self.SIMPLE_HEURISTIC:
 			file.write(F'e1 = SIMPLE_HEURISTIC\n')
-		else:
+		elif e1 == self.COMPLICATED_HEURISTIC:
 			file.write(F'e1 = COMPLICATED_HEURISTIC\n')
+		else:
+			file.write(F'e1 = None\n')
 		file.write('PLayer 2: ')
 		if player_o == self.AI:
 			file.write('AI ')
 		else:
 			file.write('Human ')
-		file.write(F'(TODO: d = depth of search) ')
-		file.write(F'(TODO: a = algo?) ')
-		file.write(F'(TODO: e2 = heuristic?)\n')
+		file.write(F'd = {depth} ')
+		if algo == self.MINIMAX:
+			file.write(F'a = MINMAX ')
+		else:
+			file.write(F'a = ALPHABETA ')
+		if e2 == self.SIMPLE_HEURISTIC:
+			file.write(F'e2 = SIMPLE_HEURISTIC\n')
+		elif e2 == self.COMPLICATED_HEURISTIC:
+			file.write(F'e2 = COMPLICATED_HEURISTIC\n')
+		else:
+			file.write(F'e2 = None\n')
 		if algo == None:
 			algo = self.ALPHABETA
 		if player_x == None:
@@ -301,9 +311,9 @@ class Game:
 			start = time.time()
 			if algo == self.MINIMAX:
 				if self.player_turn == 'X':
-					(_, x, y) = self.minimax(max=False)
+					(_, x, y) = self.minimax(max=False,e=e1)
 				else:
-					(_, x, y) = self.minimax(max=True)
+					(_, x, y) = self.minimax(max=True,e=e1)
 				print(f'h(n) = {_}')
 			else: # algo == self.ALPHABETA
 				if self.player_turn == 'X':
@@ -335,7 +345,7 @@ class Game:
 def main():
 	g = Game(recommend=True)
 	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,depth=5,e1=Game.SIMPLE_HEURISTIC)
-	g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
+	# g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
 
 if __name__ == "__main__":
 	main()
