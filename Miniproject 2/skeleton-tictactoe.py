@@ -460,11 +460,11 @@ class Game:
 				if a1:
 					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=d1)
 				else:
-					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=False,e=e2,maxDepth=d1)
+					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=False,e=e1,maxDepth=d1)
 				print(f'h(n) = {_}')
 			else:
 				if a2:
-					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=d2)
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e2,maxDepth=d2)
 				else:
 					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=d2)
 				print(f'h(n) = {m}')
@@ -515,28 +515,28 @@ def main():
 	# 2.6 Experiments and Analysis
 	# 1
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
-		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=5)
+		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=5)
 	# 2
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=1)
+		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=1)
 	# 3
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=1)
+		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=1)
 	# 4
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=5)
+		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=5)
 	# 5
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=1)
+		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=1)
 	# 6
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=5)
+		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=5)
 	# 7
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=1)
+		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=1)
 	# 8
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=5)
+		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=5)
 
 
 
