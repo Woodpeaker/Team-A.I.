@@ -392,7 +392,7 @@ class Game:
 							beta = value
 		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
-	def play(self,algo=None,player_x=None,player_o=None,e1=None,e2=None,depth=None,n=3,b=0,s=3,t=2):
+	def play(self,player_x=None,player_o=None,a1=False,a2=False,e1=None,e2=None,d1=None,d2=None,n=3,b=0,s=3,t=2):
 		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
 		file = open(fileStr, 'w')
 		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
@@ -402,11 +402,11 @@ class Game:
 			file.write('AI ')
 		else:
 			file.write('Human ')
-		file.write(F'd = {depth} ')
-		if algo == self.MINIMAX:
-			file.write(F'a = MINMAX ')
+		file.write(F'd1 = {d1} ')
+		if a1:
+			file.write(F'a1 = ALPHABETA ')
 		else:
-			file.write(F'a = ALPHABETA ')
+			file.write(F'a1 = MINMAX ')
 		if e1 == self.SIMPLE_HEURISTIC:
 			file.write(F'e1 = SIMPLE_HEURISTIC\n')
 		elif e1 == self.COMPLICATED_HEURISTIC:
@@ -418,19 +418,17 @@ class Game:
 			file.write('AI ')
 		else:
 			file.write('Human ')
-		file.write(F'd = {depth} ')
-		if algo == self.MINIMAX:
-			file.write(F'a = MINMAX ')
+		file.write(F'd2 = {d2} ')
+		if a2:
+			file.write(F'a2 = ALPHABETA ')
 		else:
-			file.write(F'a = ALPHABETA ')
+			file.write(F'a2 = MINMAX ')
 		if e2 == self.SIMPLE_HEURISTIC:
 			file.write(F'e2 = SIMPLE_HEURISTIC\n')
 		elif e2 == self.COMPLICATED_HEURISTIC:
 			file.write(F'e2 = COMPLICATED_HEURISTIC\n')
 		else:
 			file.write(F'e2 = None\n')
-		if algo == None:
-			algo = self.ALPHABETA
 		if player_x == None:
 			player_x = self.HUMAN
 		if player_o == None:
@@ -458,17 +456,17 @@ class Game:
 				return
 			avgDepth = 0
 			start = time.time()
-			if algo == self.MINIMAX:
-				if self.player_turn == 'X':
-					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=False,e=e1,maxDepth=depth)
+			if self.player_turn == 'X':
+				if a1:
+					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=d1)
 				else:
-					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=depth)
+					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=False,e=e2,maxDepth=d1)
 				print(f'h(n) = {_}')
-			else: # algo == self.ALPHABETA
-				if self.player_turn == 'X':
-					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=depth)
+			else:
+				if a2:
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=d2)
 				else:
-					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=True,e=e2,maxDepth=depth)
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=d2)
 				print(f'h(n) = {m}')
 			if x == None or y == None:
 				for i in range(0, 3):
@@ -510,11 +508,36 @@ class Game:
 
 def main():
 	g = Game(recommend=True)
-	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,
-		   depth=4,e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC)
-	g.play(algo=Game.ALPHABETA, player_x=Game.AI, player_o=Game.AI,
-		   depth=5, e1=Game.SIMPLE_HEURISTIC,e2=Game.SIMPLE_HEURISTIC,n=5, b=6, s=4, t=2)
-	# g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
+	# g.play(player_x=Game.AI,player_o=Game.AI,a1=False,a2=False,d1=4,d2=4,
+	# 	   e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC,n=3,b=0,s=3,t=2)
+	# g.play( player_x=Game.AI, player_o=Game.AI,a1=True,a2=True,d1=5,d2=5,
+	# 	e1=Game.SIMPLE_HEURISTIC,e2=Game.SIMPLE_HEURISTIC,n=5, b=6, s=4, t=2)
+	# 2.6 Experiments and Analysis
+	# 1
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
+		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=5)
+	# 2
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
+		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=1)
+	# 3
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
+		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=1)
+	# 4
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
+		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=5)
+	# 5
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
+		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=1)
+	# 6
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
+		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=5)
+	# 7
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
+		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=1)
+	# 8
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
+		   e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=5)
+
 
 
 if __name__ == "__main__":
