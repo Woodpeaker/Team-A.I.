@@ -282,13 +282,16 @@ class Game:
 					self.current_state[i][j] = '.'
 		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
-	def alphabeta(self, alpha=-2, beta=2, max=False,maxDepth=None,depth=0,e=None,count=0):
+	def alphabeta(self, alpha=-2, beta=2, max=False,maxDepth=None,depth=0,e=None,count=0,depthArray={},recursionCount=0,totalRecDepth=0):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
 		# 0  - a tie
 		# 1  - loss for 'X'
 		# We're initially setting it to 2 or -2 as worse than the worst case:
+		if depth != 0:
+			recursionCount += 1
+			totalRecDepth += depth
 		value = 2
 		if max:
 			value = -2
@@ -301,18 +304,26 @@ class Game:
 		result = self.is_end()
 		if result != None and e == self.SIMPLE_HEURISTIC:
 			value = self.simple_heuristic()
-			count += 1
-			return (value, x, y, count)
+			if depth in depthArray:
+				depthArray[depth] += 1
+			else:
+				depthArray[depth] = 1
+			count = 1
+			return (value, x, y, count, depthArray, recursionCount, totalRecDepth)
 		elif result != None and e == self.COMPLICATED_HEURISTIC:
 			value = self.complicated_heuristic()
-			count += 1
-			return (value, x, y, count)
+			if depth in depthArray:
+				depthArray[depth] += 1
+			else:
+				depthArray[depth] = 1
+			count = 1
+			return (value, x, y, count, depthArray, recursionCount, totalRecDepth)
 		elif result == 'X':
-			return (-1, x, y, 0)
+			return (-1, x, y, count, depthArray, recursionCount, totalRecDepth)
 		elif result == 'O':
-			return (1, x, y, 0)
+			return (1, x, y, count, depthArray, recursionCount, totalRecDepth)
 		elif result == '.':
-			return (0, x, y, 0)
+			return (0, x, y, count, depthArray, recursionCount, totalRecDepth)
 		for i in range(0, 3):
 			for j in range(0, 3):
 				if self.current_state[i][j] == '.':
@@ -321,12 +332,22 @@ class Game:
 						if depth == maxDepth:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
+								if depth in depthArray:
+									depthArray[depth] += 1
+								else:
+									depthArray[depth] = 1
 								count += 1
 							elif e == self.COMPLICATED_HEURISTIC:
 								v = self.complicated_heuristic()
+								if depth in depthArray:
+									depthArray[depth] += 1
+								else:
+									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _, c) = self.alphabeta(max=False, e=e, maxDepth=maxDepth, depth=depth + 1)
+							(v, _, _, c, d, rc, trd) = self.alphabeta(max=False, e=e, maxDepth=maxDepth, depth=depth + 1)
+							recursionCount += rc
+							totalRecDepth += trd
 							count += c
 						if v > value:
 							value = v
@@ -337,12 +358,22 @@ class Game:
 						if depth == maxDepth:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
+								if depth in depthArray:
+									depthArray[depth] += 1
+								else:
+									depthArray[depth] = 1
 								count += 1
 							elif e == self.COMPLICATED_HEURISTIC:
 								v = self.complicated_heuristic()
+								if depth in depthArray:
+									depthArray[depth] += 1
+								else:
+									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _, c) = self.alphabeta(max=True, e=e, maxDepth=maxDepth, depth=depth + 1)
+							(v, _, _, c, d, rc, trd) = self.alphabeta(max=True, e=e, maxDepth=maxDepth, depth=depth + 1)
+							recursionCount += rc
+							totalRecDepth += trd
 							count += c
 						if v < value:
 							value = v
@@ -351,15 +382,15 @@ class Game:
 					self.current_state[i][j] = '.'
 					if max: 
 						if value >= beta:
-							return (value, x, y,count)
+							return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 						if value > alpha:
 							alpha = value
 					else:
 						if value <= alpha:
-							return (value, x, y,count)
+							return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 						if value < beta:
 							beta = value
-		return (value, x, y,count)
+		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
 	def play(self,algo=None,player_x=None,player_o=None,e1=None,e2=None,depth=None,n=3,b=0,s=3,t=2):
 		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
@@ -421,14 +452,11 @@ class Game:
 				file.write(F'6(b)i\tAverage evaluation time: {totalTime}s\n')
 				file.write(F'6(b)ii\tTotal heuristic evaluations: {totalEval}\n')
 				file.write(F'6(b)iii\tEvaluations by depth: {totalDepthArray}\n')
-				file.write(F'6(b)iv\tAverage evaluation depth: {avgTotaldepth}\n')
-				file.write(F'6(b)v\tAverage recursion depth: {totalAvgRecDepth}\n')
+				file.write(F'6(b)iv\tAverage evaluation depth: {round(avgTotaldepth,1)}\n')
+				file.write(F'6(b)v\tAverage recursion depth: {round(totalAvgRecDepth,1)}\n')
 				file.write(F'6(b)vi\tTotal moves: {moveCounter}\n')
 				return
-			depthArray = {}
 			avgDepth = 0
-			recCount = 1
-			TotalRecDepth = 0
 			start = time.time()
 			if algo == self.MINIMAX:
 				if self.player_turn == 'X':
@@ -438,9 +466,9 @@ class Game:
 				print(f'h(n) = {_}')
 			else: # algo == self.ALPHABETA
 				if self.player_turn == 'X':
-					(m, x, y,nbEval) = self.alphabeta(max=False,e=e1,maxDepth=depth)
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=depth)
 				else:
-					(m, x, y,nbEval) = self.alphabeta(max=True,e=e2,maxDepth=depth)
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=True,e=e2,maxDepth=depth)
 				print(f'h(n) = {m}')
 			if x == None or y == None:
 				for i in range(0, 3):
@@ -459,7 +487,7 @@ class Game:
 				else:
 					totalDepthArray[key] = depthArray[key]
 			avgDepth /= nbEval
-			avgRecDepth=TotalRecDepth/recCount
+			avgRecDepth = TotalRecDepth/recCount
 			totalAvgRecDepth += avgRecDepth
 			if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
 					if self.recommend:
@@ -473,8 +501,8 @@ class Game:
 			file.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
 			file.write(F'ii\tNumber of evaluated states: {nbEval}\n')
 			file.write(F'iii\tEvaluations by depth: {depthArray}\n')
-			file.write(F'iv\tAverage evaluation depth: {avgDepth}\n')
-			file.write(F'iv\tAverage recursion depth: {avgRecDepth}\n\n')
+			file.write(F'iv\tAverage evaluation depth: {round(avgDepth,1)}\n')
+			file.write(F'iv\tAverage recursion depth: {round(avgRecDepth,1)}\n\n')
 			file.write(F'move {moveCounter}: \n')
 			depthArray.clear()
 			self.current_state[x][y] = self.player_turn
@@ -484,8 +512,8 @@ def main():
 	g = Game(recommend=True)
 	g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.AI,
 		   depth=4,e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC)
-	# g.play(algo=Game.ALPHABETA, player_x=Game.AI, player_o=Game.AI,
-	# 	   depth=5, e1=Game.SIMPLE_HEURISTIC,e2=Game.SIMPLE_HEURISTIC,n=5, b=6, s=4, t=2)
+	g.play(algo=Game.ALPHABETA, player_x=Game.AI, player_o=Game.AI,
+		   depth=5, e1=Game.SIMPLE_HEURISTIC,e2=Game.SIMPLE_HEURISTIC,n=5, b=6, s=4, t=2)
 	# g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI,n=5,b=6,s=4,t=2)
 
 
