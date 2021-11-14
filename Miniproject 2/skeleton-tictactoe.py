@@ -508,35 +508,34 @@ class Game:
 
 def main():
 	g = Game(recommend=True)
-	# g.play(player_x=Game.AI,player_o=Game.AI,a1=False,a2=False,d1=4,d2=4,
-	# 	   e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC,n=3,b=0,s=3,t=2)
-	# g.play( player_x=Game.AI, player_o=Game.AI,a1=True,a2=True,d1=5,d2=5,
-	# 	e1=Game.SIMPLE_HEURISTIC,e2=Game.SIMPLE_HEURISTIC,n=5, b=6, s=4, t=2)
-	# 2.6 Experiments and Analysis
+	# This was for testing reason (It use default settings of a Tic-Tac-Toe game):
+	g.play(player_x=Game.AI,player_o=Game.AI,a1=False,a2=False,d1=4,d2=4,
+		   e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC,n=3,b=0,s=3,t=2)
+	# 2.6 Experiments and Analysis (Uncomment when Input part is done)
 	# 1
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
-		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=5)
-	# 2
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=1)
-	# 3
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=1)
-	# 4
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=5)
-	# 5
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=1)
-	# 6
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=5)
-	# 7
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=1)
-	# 8
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-		   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=5)
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
+	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=5)
+	# # 2
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
+	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=1)
+	# # 3
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
+	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=1)
+	# # 4
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
+	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=5)
+	# # 5
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
+	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=1)
+	# # 6
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
+	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=5)
+	# # 7
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
+	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=1)
+	# # 8
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
+	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=5)
 
 
 
