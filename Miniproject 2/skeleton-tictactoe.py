@@ -207,8 +207,8 @@ class Game:
 				file.write('\n')
 			file.write('\n')
 
-	def is_valid(self, px, py):
-		if px < 0 or px > 2 or py < 0 or py > 2:
+	def is_valid(self, px, py, n=3):
+		if px < 0 or px > n-1 or py < 0 or py > n-1:
 			return False
 		elif self.current_state[px][py] != '.':
 			return False
@@ -225,8 +225,8 @@ class Game:
 						if self.current_state[j+k][i] != self.current_state[j][i]:
 							winner = False
 							break
-			if winner:
-				return self.current_state[j][i]
+				if winner:
+					return self.current_state[j][i]
 
 		# Horizontal win
 		for i in range(0, n-s):
@@ -236,8 +236,8 @@ class Game:
 						if self.current_state[j][i+k] != self.current_state[j][i]:
 							winner = False
 							break
-			if winner:
-				return self.current_state[j][i]
+				if winner:
+					return self.current_state[j][i]
 
 		# Main diagonal win
 		for i in range(0, n-s):
@@ -247,8 +247,8 @@ class Game:
 						if self.current_state[j+k][i+k] != self.current_state[j][i]:
 							winner = False
 							break
-			if winner:
-				return self.current_state[j][i]
+				if winner:
+					return self.current_state[j][i]
 
 		# Second diagonal win
 		for i in range(s, n):
@@ -258,8 +258,8 @@ class Game:
 						if self.current_state[j+k][i-k] != self.current_state[j][i]:
 							winner = False
 							break
-			if winner:
-				return self.current_state[j][i]
+				if winner:
+					return self.current_state[j][i]
 
 		# Is whole board full?
 		for i in range(0, n):
@@ -286,12 +286,12 @@ class Game:
 			self.initialize_game()
 		return self.result
 
-	def input_move(self):
+	def input_move(self, n=3):
 		while True:
 			print(F'Player {self.player_turn}, enter your move:')
 			px = int(input('enter the x coordinate: '))
 			py = int(input('enter the y coordinate: '))
-			if self.is_valid(px, py):
+			if self.is_valid(px, py, n=n):
 				return (px,py)
 			else:
 				print('The move is not valid! Try again.')
@@ -660,8 +660,8 @@ class Game:
 					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=d2, n=n, s=s)
 				print(f'h(n) = {m}')
 			if x == None or y == None:
-				for i in range(0, 3):
-					for j in range(0, 3):
+				for i in range(0, n):
+					for j in range(0, n):
 						if self.current_state[i][j] == '.':
 							x = i
 							y = j
@@ -682,7 +682,7 @@ class Game:
 					if self.recommend:
 						print(F'Evaluation time: {round(end - start, 7)}s')
 						print(F'Recommended move: x = {x}, y = {y}')
-					(x,y) = self.input_move()
+					(x,y) = self.input_move(n=n)
 			if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
 						print(F'Evaluation time: {round(end - start, 7)}s')
 						print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
@@ -775,17 +775,13 @@ class Game:
 		file.write(F'vi   Average moves per game: {moveCounterLoop/totalgames}\n')
 
 
-
-
-
-
-
 def main():
 	n, b, blocks, s, d1, d2, t, a1, a2, m1, m2 = game_input()
 	g = Game(recommend=True, blocks=blocks, n=n)
 	# This was for testing reason (It use default settings of a Tic-Tac-Toe game):
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=a1,  a2=a2, d1=d1, d2=d2, e1=Game.SIMPLE_HEURISTIC, e2=Game.SIMPLE_HEURISTIC, n=n, b=b, s=s, t=t, blocks=blocks)
-	g.scoreboard(r =7,a1=True,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2)
+	# g.scoreboard(r =7,a1=True,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2)
+
 	# 2.6 Experiments and Analysis (Uncomment when Input part is done)
 	# 1
 	# g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
