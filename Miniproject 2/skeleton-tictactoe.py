@@ -629,7 +629,9 @@ class Game:
 		while True:
 			moveCounter += 1
 			self.draw_board(n=n, blocks=blocks, file=file)
-			if self.check_end(file=file, n=n, s=s):
+			winner = self.check_end(file=file, n=n, s=s)
+
+			if winner:
 				for key in totalDepthArray.keys():
 					avgTotaldepth += key * totalDepthArray[key]
 				if totalEval == 0:
@@ -642,7 +644,7 @@ class Game:
 				file.write(F'6(b)iv\tAverage evaluation depth: {round(avgTotaldepth,1)}\n')
 				file.write(F'6(b)v\tAverage recursion depth: {round(totalAvgRecDepth,1)}\n')
 				file.write(F'6(b)vi\tTotal moves: {moveCounter}\n')
-				return
+				return (winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter)
 			avgDepth = 0
 			start = time.time()
 			if self.player_turn == 'X':
@@ -695,11 +697,95 @@ class Game:
 			self.current_state[x][y] = self.player_turn
 			self.switch_player()
 
+	def scoreboard(self, r =4,a1=False,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2):
+		g = Game(recommend=True)
+		fileStr=F'scoreboard.txt'
+		file = open(fileStr, 'w')
+		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
+		file.write(F'PLayer 1: d= {d1} a={a1}\n')
+		file.write(F'PLayer 2: d= {d2} a={a2}\n')
+		totalgames= 2*r
+		file.write('\n')
+		file.write(F'{totalgames} games\n')
+		file.write('\n')
+		e1Wins=0
+		e2Wins=0
+
+		totalTimeLoop= 0
+		totalEvalLoop= 0
+		totalDepthArrayLoop = {}
+		avgTotalDepthLoop = 0
+		totalAvgRecDepthLoop =0
+		moveCounterLoop= 0
+
+
+		for x in range (0,r):
+			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a1,a2=a2,e1=g.SIMPLE_HEURISTIC,e2=g.COMPLICATED_HEURISTIC,d1=d1,d2=d2,n=n,b=b,s=s,t=t)
+			if winner == 'X':
+				e1Wins+=1
+			elif winner== 'O':
+				e2Wins+=1
+			totalTimeLoop+=totalTime
+			totalEvalLoop+=totalEval
+
+			for key in totalDepthArray.keys():
+				if key in totalDepthArrayLoop:
+					totalDepthArrayLoop[key] += totalDepthArray[key]
+				else:
+					totalDepthArrayLoop[key] = totalDepthArray[key]
+
+			totalDepthArray.clear()
+			avgTotalDepthLoop+=avgTotaldepth
+			totalAvgRecDepthLoop+=totalAvgRecDepth
+			moveCounterLoop+=moveCounter
+
+
+		for x in range (0,r):
+			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a2,a2=a1,e1=g.COMPLICATED_HEURISTIC,e2=g.SIMPLE_HEURISTIC,d1=d2,d2=d1,n=n,b=b,s=s,t=t)
+			if winner == 'X':
+				e2Wins+=1
+			elif winner== 'O':
+				e1Wins+=1
+			totalTimeLoop += totalTime
+			totalEvalLoop += totalEval
+
+			for key in totalDepthArray.keys():
+				if key in totalDepthArrayLoop:
+					totalDepthArrayLoop[key] += totalDepthArray[key]
+				else:
+					totalDepthArrayLoop[key] = totalDepthArray[key]
+			totalDepthArray.clear()
+			avgTotalDepthLoop += avgTotaldepth
+			totalAvgRecDepthLoop += totalAvgRecDepth
+			moveCounterLoop += moveCounter
+
+		percentageE1= e1Wins/totalgames
+		percentageE2= e2Wins/totalgames
+
+		file.write('\n')
+		file.write(F'Total wins for heuristic e1: {e1Wins} ({percentageE1}%) (Simple Heuristic)\n')
+		file.write(F'Total wins for heuristic e1: {e2Wins} ({percentageE2}%) (Complicated Heuristic)\n')
+		file.write('\n')
+
+		file.write(F'i   Average evaluation time: {totalTimeLoop/totalgames}\n')
+		file.write(F'ii  Total heuristic evaluations: {totalEvalLoop/totalgames}\n')
+		file.write(F'iii Evaluations by depth: {totalDepthArrayLoop}\n')
+		file.write(F'iv Average evaluation depth: {avgTotalDepthLoop/totalgames}\n')
+		file.write(F'v  Average recursion depth: {totalAvgRecDepthLoop/totalgames}\n')
+		file.write(F'vi   Average moves per game: {moveCounterLoop/totalgames}\n')
+
+
+
+
+
+
+
 def main():
 	n, b, blocks, s, d1, d2, t, a1, a2, m1, m2 = game_input()
 	g = Game(recommend=True, blocks=blocks, n=n)
 	# This was for testing reason (It use default settings of a Tic-Tac-Toe game):
 	g.play(player_x=Game.AI, player_o=Game.AI, a1=a1,  a2=a2, d1=d1, d2=d2, e1=Game.SIMPLE_HEURISTIC, e2=Game.SIMPLE_HEURISTIC, n=n, b=b, s=s, t=t, blocks=blocks)
+	g.scoreboard(r =7,a1=True,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2)
 	# 2.6 Experiments and Analysis (Uncomment when Input part is done)
 	# 1
 	# g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
