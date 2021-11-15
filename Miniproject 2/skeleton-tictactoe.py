@@ -1,6 +1,7 @@
 # based on code from https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python
 import string
 import time
+import pyfiglet
 
 class Game:
 	MINIMAX = 0
@@ -12,7 +13,7 @@ class Game:
 	def __init__(self, recommend = True):
 		self.initialize_game()
 		self.recommend = recommend
-		
+
 	def initialize_game(self):
 		self.current_state = [['.','.','.'],
 							  ['.','.','.'],
@@ -20,29 +21,42 @@ class Game:
 		# Player X always plays first
 		self.player_turn = 'X'
 
-	def draw_board(self,n=3,file=None):
+	def draw_board(self, n=3, blocks=[], file=None):
 		letters = list(string.ascii_uppercase)
 		print()
-		for y in range(0, 3):
-			for x in range(0, 3):
-				print(F'{self.current_state[x][y]}', end="")
-			print()
-		print()
+		print('\n  ', end="")
+		for i in range(0, n):
+			print(letters[i], end="")
+		print('\n +', end="")
+		for i in range(0, n):
+			print('-', end="")
+		print('\n')
+		for i in range(0, n):
+			print(str(i) + '|', end="")
+			for j in range(0, n):
+				if (j, i) in blocks:
+					print(F'=', end="")
+				else:
+					print(F'{self.current_state[j][i]}', end="")
+			print('\n')
 		if not file.closed:
 			file.write('\n  ')
-			for i in range(0, 3):
+			for i in range(0, n):
 				file.write(letters[i])
 			file.write('\n +')
-			for i in range(0, 3):
+			for i in range(0, n):
 				file.write('-')
 			file.write('\n')
-			for i in range(0, 3):
+			for i in range(0, n):
 				file.write(str(i)+'|')
-				for j in range(0, 3):
-					file.write(F'{self.current_state[j][i]}')
+				for j in range(0, n):
+					if (j, i) in blocks:
+						file.write(F'=')
+					else:
+						file.write(F'{self.current_state[j][i]}')
 				file.write('\n')
 			file.write('\n')
-		
+
 	def is_valid(self, px, py):
 		if px < 0 or px > 2 or py < 0 or py > 2:
 			return False
@@ -380,7 +394,7 @@ class Game:
 							x = i
 							y = j
 					self.current_state[i][j] = '.'
-					if max: 
+					if max:
 						if value >= beta:
 							return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 						if value > alpha:
@@ -392,11 +406,156 @@ class Game:
 							beta = value
 		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
-	def play(self,player_x=None,player_o=None,a1=False,a2=False,e1=None,e2=None,d1=None,d2=None,n=3,b=0,s=3,t=2):
+	def game_input(self):
+		# WELCOMING THE PLAYER
+		welcome_message = pyfiglet.figlet_format("Let's Line' Em Up!")
+		print(welcome_message)
+
+		# SETTING GAME PARAMETERS
+
+		# n is the size of the board
+		n = int(input("What board size would you like? \nnote: must be a number between 3 and 10"))
+
+		while n < 3 or n > 10:
+			print("Invalid number. Please try again")
+			n = int(input("\nWhat board size would you like? \n note: must be a number between 3 and 10"))
+		else:
+			print("\nThe board will be of size: " + str(n) + "\n")
+
+		# Show the board to the player
+		letters = list(string.ascii_uppercase)
+		print('\n  ', end="")
+		for i in range(0, n):
+			print(letters[i], end="")
+		print('\n +', end="")
+		for i in range(0, n):
+			print('-', end="")
+		print('\n')
+		for i in range(0, n):
+			print(str(i) + '|', end="")
+			for j in range(0, n):
+				print(F'.', end="")
+			print('\n')
+
+		# b is the number of blocks
+		b = int(input("How many blocks would you like? \n note: must be a number between 0 and " + str(2*n)))
+		while b < 0 or b > 2 * n:
+			print("Invalid number. Please try again")
+			b = int(input("\nHow many blocks would you like? \n note: must be a number between 0 and " + str(2*n)))
+		else:
+			print("\nThere will be " + str(b) + " block(s) \n")
+
+		# Initializing block positions
+		print("Please choose coordinates for each of the blocks:\n")
+		blocks = []
+		for i in range(0, b):
+			valid = False
+			while not valid:
+				row = int(input("Which row would you like block " + str(i) + " to be on?"))
+				if row < 0 or row >= n:
+					print("Invalid row choice. Please try again")
+					row = int(input("\nWhich row would you like block " + str(i) + " to be on?"))
+				column = int(input("Which column would you like your block to be on?"))
+				if column < 0 or column >= n:
+					print("Invalid column choice. Please try again")
+					column = int(input("\nWhich column would you like your block to be on?"))
+				if (row, column) not in blocks:
+					valid = True
+				else:
+					print("\nInvalid coordinates. Please try again\n")
+			blocks += [(row, column)]
+			print("\nYour block will be at coordinate " + "(" + str(row) + ", " + letters[column] + ")\n")
+
+		# Show the board with the blocks to the player
+		print('\n  ', end="")
+		for i in range(0, n):
+			print(letters[i], end="")
+		print('\n +', end="")
+		for i in range(0, n):
+			print('-', end="")
+		print('\n')
+		for i in range(0, n):
+			print(str(i) + '|', end="")
+			for j in range(0, n):
+				if (j, i) in blocks:
+					print(F'=', end="")
+				else:
+					print(F'.', end="")
+			print('\n')
+
+		# s is the winning line-up size
+		s = int(input("What size would you like for the winning line-up? \n note: must be a number between 3 and " + str(n)))
+		while s < 3 or s > n:
+			print("Invalid number. Please try again")
+			s = int(input(
+				"\nWhat size would you like for the winning line-up? \n note: must be a number between 3 and " + str(n)))
+		else:
+			print("\nThe winning line-up will be of size " + str(s) + "\n")
+
+		# d1 and d2 are the maximum depth of the adversarial search for player 1 and player 2
+		d1 = int(input("What would you like the maximum depth of the adversarial search to be for Player 1?"))
+		print("\nThe maximum depth of the adversarial search for Player 1 will be: " + str(d1) + "\n")
+
+		d2 = int(input("What would you like the maximum depth of the adversarial search to be for Player 2?"))
+		print("\nThe maximum depth of the adversarial search for Player 2 will be: " + str(d2) + "\n")
+
+		# t is the maximum allowed time for the program to return a move, in seconds
+		t = int(input("What would you like to set as the maximum allowed time (in seconds) for the AI to make a move?"))
+		while t <= 0:
+			print("Invalid input. Please try again")
+			t = int(input("\nWhat would you like to set as the maximum allowed time (in seconds) for the AI to make a move?"))
+		else:
+			print("\nThe maximum allowed time has been set to " + str(t) + " seconds\n")
+
+		# a1 and a2 are booleans values 0 or 1, used to force the use of either minimax (FALSE) or alphabeta (TRUE)
+		# for player 1 and player 2
+		a1 = int(input("For Player 1:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+		while a1 < 0 or a1 > 1:
+			print("Invalid choice. Please try again")
+			a1 = int(input("\nFor Player 1:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+		if not a1:
+			print("\nPlayer 1 will use minimax\n")
+			bool(a1)
+		else:
+			print("\nPlayer 1 will use alphabeta\n")
+
+		a2 = int(input("For Player 2:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+		while a2 < 0 or a2 > 1:
+			print("Invalid choice. Please try again")
+			a2 = int(input("\nFor Player 2:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+		if not a2:
+			print("\nPlayer 2 will use minimax\n")
+		else:
+			print("\nPlayer 2 will use alphabeta\n")
+
+		# m1 and m2 are booleans values 0 or 1, used to select whether the player will be HUMAN or AI, for both player 1
+		# and player 2
+		m1 = int(input("For Player 1:\nType 0 to select human.\nType 1 if you would like to select AI"))
+		while m1 < 0 or m1 > 1:
+			print("Invalid choice. Please try again")
+			m1 = int(input("\nFor Player 1:\nType 0 if you would like to select human.\nType 1 if you would like to to select AI"))
+		if not m1:
+			print("\nPlayer 1 will be human\n")
+		else:
+			print("\nPlayer 1 will be AI\n")
+
+		m2 = int(input("For Player 2:\nType 0 to select human.\nType 1 if you would like to select AI"))
+		while m2 < 0 or m2 > 1:
+			print("Invalid choice. Please try again")
+			m2 = int(input("\nFor Player 2:\nType 0 if you would like to select human.\nType 1 if you would like to to select AI"))
+		if not m2:
+			print("\nPlayer 2 will be human")
+		else:
+			print("\nPlayer 2 will be AI")
+
+		# Returning all the parameters
+		return n, b, blocks, s, d1, d2, t, a1, a2, m1, m2
+
+	def play(self,player_x=None,player_o=None,a1=False,a2=False,e1=None,e2=None,d1=None,d2=None,n=None,b=None,s=None,t=None, blocks=[]):
 		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
 		file = open(fileStr, 'w')
 		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
-		file.write(F'TODO: Position of the blocks (Show array of coordinate)\n')
+		file.write(F'Position of the blocks: {blocks}\n')
 		file.write('PLayer 1: ')
 		if player_x == self.AI:
 			file.write('AI ')
@@ -441,7 +600,7 @@ class Game:
 		totalAvgRecDepth = 0
 		while True:
 			moveCounter += 1
-			self.draw_board(n=n,file=file)
+			self.draw_board(n=n, blocks=blocks, file=file)
 			if self.check_end(file=file):
 				for key in totalDepthArray.keys():
 					avgTotaldepth += key * totalDepthArray[key]
@@ -508,9 +667,9 @@ class Game:
 
 def main():
 	g = Game(recommend=True)
+	n, b, blocks, s, d1, d2, t, a1, a2, m1, m2 = g.game_input()
 	# This was for testing reason (It use default settings of a Tic-Tac-Toe game):
-	g.play(player_x=Game.AI,player_o=Game.AI,a1=False,a2=False,d1=4,d2=4,
-		   e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC,n=3,b=0,s=3,t=2)
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=a1,  a2=a2, d1=d1, d2=d2, e1=Game.COMPLICATED_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=n, b=b, s=s, t=t, blocks=blocks)
 	# 2.6 Experiments and Analysis (Uncomment when Input part is done)
 	# 1
 	# g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
