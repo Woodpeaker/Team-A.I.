@@ -1,13 +1,13 @@
 # based on code from https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python
 import string
 import time
-import pyfiglet
+# import pyfiglet
 
 
 def game_input():
 	# WELCOMING THE PLAYER
-	welcome_message = pyfiglet.figlet_format("Let's Line' Em Up!")
-	print(welcome_message)
+	# welcome_message = pyfiglet.figlet_format("Let's Line' Em Up!")
+	# print(welcome_message)
 
 	# SETTING GAME PARAMETERS
 
@@ -216,29 +216,29 @@ class Game:
 			return True
 
 	def is_end(self, n=3, s=3):
-		winner = True
 		# Vertical win
 		for i in range(0, n):
 			for j in range(0, n-s):
 				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					winner = True
 					for k in range(1, s):
 						if self.current_state[j+k][i] != self.current_state[j][i]:
 							winner = False
 							break
-				if winner:
-					return self.current_state[j][i]
-
+					if winner:
+						return self.current_state[j][i]
 		# Horizontal win
 		for i in range(0, n-s):
 			for j in range(0, n):
 				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					winner = True
 					for k in range(1, s):
 						if self.current_state[j][i+k] != self.current_state[j][i]:
 							winner = False
 							break
-				if winner:
-					return self.current_state[j][i]
-
+					if winner:
+						return self.current_state[j][i]
+		winner = True
 		# Main diagonal win
 		for i in range(0, n-s):
 			for j in range(0, n-s):
@@ -247,19 +247,19 @@ class Game:
 						if self.current_state[j+k][i+k] != self.current_state[j][i]:
 							winner = False
 							break
-				if winner:
-					return self.current_state[j][i]
-
+					if winner:
+						return self.current_state[j][i]
 		# Second diagonal win
 		for i in range(s, n):
 			for j in range(0, n-s):
 				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					winner = True
 					for k in range(1, s):
 						if self.current_state[j+k][i-k] != self.current_state[j][i]:
 							winner = False
 							break
-				if winner:
-					return self.current_state[j][i]
+					if winner:
+						return self.current_state[j][i]
 
 		# Is whole board full?
 		for i in range(0, n):
@@ -310,28 +310,28 @@ class Game:
 				if self.current_state[row][col] == 'X':
 					hScore += 1
 				if row < n-1:
-					if self.current_state[row + 1][col] == 'O':
+					if self.current_state[row + 1][col] == 'O' or self.current_state[row + 1][col] == '=':
 						hScore += 2
 				if col < n-1:
-					if self.current_state[row][col + 1] == 'O':
+					if self.current_state[row][col + 1] == 'O' or self.current_state[row][col+1] == '=':
 						hScore += 2
 				if row > 0:
-					if self.current_state[row - 1][col] == 'O':
+					if self.current_state[row - 1][col] == 'O' or self.current_state[row - 1][col] == '=':
 						hScore += 2
 				if col > 0:
-					if self.current_state[row][col - 1] == 'O':
+					if self.current_state[row][col - 1] == 'O' or self.current_state[row][col-1] == '=':
 						hScore += 2
 				if col > 0 and row > 0:
-					if self.current_state[row - 1][col - 1] == 'O':
+					if self.current_state[row - 1][col - 1] == 'O' or self.current_state[row - 1][col-1] == '=':
 						hScore += 2
 				if col > 0 and row < n-1:
-					if self.current_state[row + 1][col - 1] == 'O':
+					if self.current_state[row + 1][col - 1] == 'O' or self.current_state[row + 1][col-1] == '=':
 						hScore += 2
 				if col < n-1 and row > 0:
-					if self.current_state[row - 1][col + 1] == 'O':
+					if self.current_state[row - 1][col + 1] == 'O' or self.current_state[row - 1][col+1] == '=':
 						hScore += 2
 				if col < n-1 and row < n-1:
-					if self.current_state[row + 1][col + 1] == 'O':
+					if self.current_state[row + 1][col + 1] == 'O' or self.current_state[row + 1][col+1] == '=':
 						hScore += 2
 		return hScore
 
@@ -369,7 +369,7 @@ class Game:
 			hScore -= 50
 		return hScore
 
-	def minimax(self, max=False, maxDepth=None, depth=0, e=None, count=0,depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3):
+	def minimax(self, max=False, maxDepth=None, depth=0, e=None, count=0,depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3, start=0, t=None):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
@@ -416,7 +416,7 @@ class Game:
 				if self.current_state[i][j] == '.':
 					if max:
 						self.current_state[i][j] = 'O'
-						if depth == maxDepth:
+						if depth == maxDepth or time.time() - start >= t:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
 								if depth in depthArray:
@@ -432,7 +432,7 @@ class Game:
 									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _,c,d,rc,trd) = self.minimax(max=False, e=e, maxDepth=maxDepth, depth=depth+1, n=n)
+							(v, _, _,c,d,rc,trd) = self.minimax(max=False, e=e, maxDepth=maxDepth, depth=depth+1, n=n, start=start, t=t)
 							recursionCount += rc
 							totalRecDepth += trd
 							count += c
@@ -442,7 +442,7 @@ class Game:
 							y = j
 					else:
 						self.current_state[i][j] = 'X'
-						if depth == maxDepth:
+						if depth == maxDepth or time.time() - start >= t:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
 								if depth in depthArray:
@@ -458,7 +458,7 @@ class Game:
 									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _, c,d,rc,trd) = self.minimax(max=True, e=e, maxDepth=maxDepth, depth=depth + 1, n=n)
+							(v, _, _, c,d,rc,trd) = self.minimax(max=True, e=e, maxDepth=maxDepth, depth=depth + 1, n=n, start=start, t=t)
 							recursionCount += rc
 							totalRecDepth += trd
 							count += c
@@ -469,7 +469,7 @@ class Game:
 					self.current_state[i][j] = '.'
 		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
-	def alphabeta(self, alpha=-2, beta=2, max=False, maxDepth=None, depth=0, e=None, count=0, depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3):
+	def alphabeta(self, alpha=-2, beta=2, max=False, maxDepth=None, depth=0, e=None, count=0, depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3, start=0, t=None):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
@@ -516,7 +516,7 @@ class Game:
 				if self.current_state[i][j] == '.':
 					if max:
 						self.current_state[i][j] = 'O'
-						if depth == maxDepth:
+						if depth == maxDepth or time.time() - start >= t:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
 								if depth in depthArray:
@@ -532,7 +532,7 @@ class Game:
 									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _, c, d, rc, trd) = self.alphabeta(max=False, e=e, maxDepth=maxDepth, depth=depth + 1, n=n)
+							(v, _, _, c, d, rc, trd) = self.alphabeta(max=False, e=e, maxDepth=maxDepth, depth=depth + 1, n=n, start=start, t=t)
 							recursionCount += rc
 							totalRecDepth += trd
 							count += c
@@ -542,7 +542,7 @@ class Game:
 							y = j
 					else:
 						self.current_state[i][j] = 'X'
-						if depth == maxDepth:
+						if depth == maxDepth or time.time() - start >= t:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
 								if depth in depthArray:
@@ -558,7 +558,7 @@ class Game:
 									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _, c, d, rc, trd) = self.alphabeta(max=True, e=e, maxDepth=maxDepth, depth=depth + 1, n=n)
+							(v, _, _, c, d, rc, trd) = self.alphabeta(max=True, e=e, maxDepth=maxDepth, depth=depth + 1, n=n, start=start, t=t)
 							recursionCount += rc
 							totalRecDepth += trd
 							count += c
@@ -649,15 +649,15 @@ class Game:
 			start = time.time()
 			if self.player_turn == 'X':
 				if a1:
-					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=d1, n=n, s=s)
+					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=d1, n=n, s=s, start=start, t=t)
 				else:
-					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=False,e=e1,maxDepth=d1, n=n, s=s)
+					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=False,e=e1,maxDepth=d1, n=n, s=s, start=start, t=t)
 				print(f'h(n) = {_}')
 			else:
 				if a2:
-					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e2,maxDepth=d2, n=n, s=s)
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e2,maxDepth=d2, n=n, s=s, start=start, t=t)
 				else:
-					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=d2, n=n, s=s)
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=d2, n=n, s=s, start=start, t=t)
 				print(f'h(n) = {m}')
 			if x == None or y == None:
 				for i in range(0, n):
@@ -776,10 +776,14 @@ class Game:
 
 
 def main():
-	n, b, blocks, s, d1, d2, t, a1, a2, m1, m2 = game_input()
-	g = Game(recommend=True, blocks=blocks, n=n)
 	# This was for testing reason (It use default settings of a Tic-Tac-Toe game):
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=a1,  a2=a2, d1=d1, d2=d2, e1=Game.SIMPLE_HEURISTIC, e2=Game.SIMPLE_HEURISTIC, n=n, b=b, s=s, t=t, blocks=blocks)
+	g = Game(recommend=True, blocks=[(0,0),(0,1),(1,3)], n=6)
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=4, d2=4, e1=Game.SIMPLE_HEURISTIC,
+		   e2=Game.SIMPLE_HEURISTIC, n=6, b=3, s=4, t=2, blocks=[(0,0),(0,1),(1,3)])
+
+	# n, b, blocks, s, d1, d2, t, a1, a2, m1, m2 = game_input()
+	# g = Game(recommend=True, blocks=blocks, n=n)
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=a1,  a2=a2, d1=d1, d2=d2, e1=Game.SIMPLE_HEURISTIC, e2=Game.SIMPLE_HEURISTIC, n=n, b=b, s=s, t=t, blocks=blocks)
 	# g.scoreboard(r =7,a1=True,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2)
 
 	# 2.6 Experiments and Analysis (Uncomment when Input part is done)
