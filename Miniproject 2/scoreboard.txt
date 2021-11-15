@@ -1,0 +1,16 @@
+n = 3, b = 0, s = 3, t = 2
+PLayer 1: d= 4 a=True
+PLayer 2: d= 4 a=False
+
+14 games
+
+
+Total wins for heuristic e1: 7 (0.5%) (Simple Heuristic)
+Total wins for heuristic e1: 7 (0.5%) (Complicated Heuristic)
+
+i   Average evaluation time: 0.06661196428571428
+ii  Total heuristic evaluations: 12450.5
+iii Evaluations by depth: {4: 173740, 3: 483, 2: 42, 1: 42}
+iv Average evaluation depth: 3.995807742145306
+v  Average recursion depth: 2.639796447138196
+vi   Average moves per game: 8.0
