@@ -1,4 +1,5 @@
 # based on code from https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python
+import random
 import string
 import time
 # import pyfiglet
@@ -694,6 +695,7 @@ class Game:
 		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
 	def play(self,player_x=None,player_o=None,a1=False,a2=False,e1=None,e2=None,d1=None,d2=None,n=None,b=None,s=None,t=None, blocks=[]):
+		self.initialize_game(n=n,blocks=blocks)
 		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
 		file = open(fileStr, 'w')
 		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
@@ -816,10 +818,10 @@ class Game:
 			self.current_state[x][y] = self.player_turn
 			self.switch_player()
 
-	def scoreboard(self, r =4,a1=False,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2):
-		g = Game(recommend=True)
+	def scoreboard(self, r =4,a1=False,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2,blocks=[]):
+		g = Game(recommend=True, blocks=blocks, n=n)
 		fileStr=F'scoreboard.txt'
-		file = open(fileStr, 'w')
+		file = open(fileStr, 'a')
 		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
 		file.write(F'PLayer 1: d= {d1} a={a1}\n')
 		file.write(F'PLayer 2: d= {d2} a={a2}\n')
@@ -839,7 +841,7 @@ class Game:
 
 
 		for x in range (0,r):
-			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a1,a2=a2,e1=g.SIMPLE_HEURISTIC,e2=g.COMPLICATED_HEURISTIC,d1=d1,d2=d2,n=n,b=b,s=s,t=t)
+			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a1,a2=a2,e1=g.SIMPLE_HEURISTIC,e2=g.COMPLICATED_HEURISTIC, blocks=blocks, d1=d1,d2=d2,n=n,b=b,s=s,t=t)
 			if winner == 'X':
 				e1Wins+=1
 			elif winner== 'O':
@@ -860,7 +862,7 @@ class Game:
 
 
 		for x in range (0,r):
-			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a2,a2=a1,e1=g.COMPLICATED_HEURISTIC,e2=g.SIMPLE_HEURISTIC,d1=d2,d2=d1,n=n,b=b,s=s,t=t)
+			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a2,a2=a1,e1=g.COMPLICATED_HEURISTIC,e2=g.SIMPLE_HEURISTIC,blocks=blocks, d1=d2,d2=d1,n=n,b=b,s=s,t=t)
 			if winner == 'X':
 				e2Wins+=1
 			elif winner== 'O':
@@ -882,8 +884,8 @@ class Game:
 		percentageE2= e2Wins/totalgames
 
 		file.write('\n')
-		file.write(F'Total wins for heuristic e1: {e1Wins} ({percentageE1}%) (Simple Heuristic)\n')
-		file.write(F'Total wins for heuristic e1: {e2Wins} ({percentageE2}%) (Complicated Heuristic)\n')
+		file.write(F'Total wins for heuristic e1: {e1Wins} ({percentageE1*100}%) (Simple Heuristic)\n')
+		file.write(F'Total wins for heuristic e1: {e2Wins} ({percentageE2*100}%) (Complicated Heuristic)\n')
 		file.write('\n')
 
 		file.write(F'i   Average evaluation time: {totalTimeLoop/totalgames}\n')
@@ -892,14 +894,21 @@ class Game:
 		file.write(F'iv Average evaluation depth: {avgTotalDepthLoop/totalgames}\n')
 		file.write(F'v  Average recursion depth: {totalAvgRecDepthLoop/totalgames}\n')
 		file.write(F'vi   Average moves per game: {moveCounterLoop/totalgames}\n')
+		file.write(F'------------------------------------------------------------------------------------\n')
+
+def blockGenerator(b=3,n=3):
+	blocks =[]
+	for i in range(0,b):
+		valid = False
+		while not valid:
+			coord=[(random.randint(0,n-1),random.randint(0,n-1))]
+			if coord not in blocks:
+				blocks += coord
+				valid = True
+	return blocks
 
 
 def main():
-	# This was for testing reason (It use default settings of a Tic-Tac-Toe game):
-	g = Game(recommend=True, blocks=[(0,0),(0,1),(1,3)], n=6)
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=5, d2=5, e1=Game.COMPLICATED_HEURISTIC,
-		   e2=Game.COMPLICATED_HEURISTIC, n=6, b=3, s=4, t=2, blocks=[(0,0),(0,1),(1,3)])
-
 	# n, b, blocks, s, d1, d2, t, a1, a2, m1, m2 = game_input()
 	# g = Game(recommend=True, blocks=blocks, n=n)
 	# g.play(player_x=Game.AI, player_o=Game.AI, a1=a1,  a2=a2, d1=d1, d2=d2, e1=Game.SIMPLE_HEURISTIC, e2=Game.SIMPLE_HEURISTIC, n=n, b=b, s=s, t=t, blocks=blocks)
@@ -907,29 +916,35 @@ def main():
 
 	# 2.6 Experiments and Analysis (Uncomment when Input part is done)
 	# 1
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=5)
-	# # 2
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=1)
-	# # 3
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=1)
-	# # 4
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=5)
-	# # 5
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=1)
-	# # 6
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=5)
-	# # 7
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=1)
-	# # 8
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=5)
+	g = Game(recommend=True, blocks=[(0, 0), (0, 3), (3, 0), (3, 3)], n=4)
+	g.scoreboard(r=10,a1=False, a2=False,blocks=[(0,0),(0,3),(3,0),(3,3)], d1=6, d2=6,  n=4, b=4, s=3, t=5)
+	# 2
+	g = Game(recommend=True, blocks=[(0,0),(0,3),(3,0),(3,3)], n=4)
+	g.scoreboard(r=10, blocks=[(0,0),(0,3),(3,0),(3,3)], a1=True, a2=True, d1=6, d2=6, n=4, b=4, s=3, t=1)
+	# 3
+	blocks=blockGenerator(b=4,n=5)
+	g = Game(recommend=True, blocks=blocks, n=5)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=2, d2=6,  n=5, b=4, s=4, t=1)
+	# 4
+	blocks = blockGenerator(b=4, n=5)
+	g = Game(recommend=True,blocks=blocks, n=5)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=6, d2=6, n=5, b=4, s=4, t=5)
+	# 5
+	blocks = blockGenerator(b=5, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10,blocks=blocks, a1=True, a2=True, d1=2, d2=6,n=8, b=5, s=5, t=1)
+	# 6
+	blocks = blockGenerator(b=5, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10,blocks=blocks,a1=True, a2=True, d1=2, d2=6, n=8, b=5, s=5, t=5)
+	# 7
+	blocks = blockGenerator(b=6, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=6, d2=6, n=8, b=6, s=5, t=1)
+	# 8
+	blocks = blockGenerator(b=6, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10, blocks=blocks,a1=True, a2=True, d1=6, d2=6,  n=8, b=6, s=5, t=5)
 
 
 
