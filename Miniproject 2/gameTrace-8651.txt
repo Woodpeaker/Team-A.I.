@@ -1,0 +1,1242 @@
+n = 8, b = 6, s = 5, t = 1
+Position of the blocks: [(4, 7), (4, 5), (4, 3), (0, 1), (3, 3), (7, 1)]
+PLayer 1: AI d1 = 6 a1 = ALPHABETA e1 = COMPLICATED_HEURISTIC
+PLayer 2: AI d2 = 6 a2 = ALPHABETA e2 = SIMPLE_HEURISTIC
+
+  ABCDEFGH
+ +--------
+0|........
+1|=......=
+2|........
+3|...==...
+4|........
+5|....=...
+6|........
+7|....=...
+
+Player X under AI control plays: x = 0, y = 0
+
+i	Evaluation time: 1.0002921s
+ii	Number of evaluated states: 36327
+iii	Evaluations by depth: {6: 36227, 5: 25, 3: 31, 1: 44}
+iv	Average evaluation depth: 6.0
+iv	Average recursion depth: 5.9
+
+move 1: 
+
+  ABCDEFGH
+ +--------
+0|X.......
+1|=......=
+2|........
+3|...==...
+4|........
+5|....=...
+6|........
+7|....=...
+
+Player O under AI control plays: x = 0, y = 2
+
+i	Evaluation time: 0.7250009s
+ii	Number of evaluated states: 15252
+iii	Evaluations by depth: {6: 12390, 5: 2862}
+iv	Average evaluation depth: 5.8
+iv	Average recursion depth: 5.4
+
+move 2: 
+
+  ABCDEFGH
+ +--------
+0|X.......
+1|=......=
+2|O.......
+3|...==...
+4|........
+5|....=...
+6|........
+7|....=...
+
+Player X under AI control plays: x = 0, y = 3
+
+i	Evaluation time: 0.3539448s
+ii	Number of evaluated states: 10865
+iii	Evaluations by depth: {6: 8109, 5: 2754, 4: 2}
+iv	Average evaluation depth: 5.7
+iv	Average recursion depth: 5.3
+
+move 3: 
+
+  ABCDEFGH
+ +--------
+0|X.......
+1|=......=
+2|O.......
+3|X..==...
+4|........
+5|....=...
+6|........
+7|....=...
+
+Player O under AI control plays: x = 0, y = 4
+
+i	Evaluation time: 1.0029304s
+ii	Number of evaluated states: 77870
+iii	Evaluations by depth: {6: 77714, 3: 52, 5: 37, 4: 15, 2: 2, 1: 50}
+iv	Average evaluation depth: 6.0
+iv	Average recursion depth: 6.0
+
+move 4: 
+
+  ABCDEFGH
+ +--------
+0|X.......
+1|=......=
+2|O.......
+3|X..==...
+4|O.......
+5|....=...
+6|........
+7|....=...
+
+Player X under AI control plays: x = 0, y = 5
+
+i	Evaluation time: 1.0000145s
+ii	Number of evaluated states: 31231
+iii	Evaluations by depth: {6: 31126, 4: 5, 5: 38, 3: 22, 1: 40}
+iv	Average evaluation depth: 6.0
+iv	Average recursion depth: 5.9
+
+move 5: 
+
+  ABCDEFGH
+ +--------
+0|X.......
+1|=......=
+2|O.......
+3|X..==...
+4|O.......
+5|X...=...
+6|........
+7|....=...
+
+Player O under AI control plays: x = 0, y = 6
+
+i	Evaluation time: 1.0011411s
+ii	Number of evaluated states: 74668
+iii	Evaluations by depth: {6: 74527, 5: 29, 4: 12, 3: 49, 2: 1, 1: 50}
+iv	Average evaluation depth: 6.0
+iv	Average recursion depth: 6.0
+
+move 6: 
+
+  ABCDEFGH
+ +--------
+0|X.......
+1|=......=
+2|O.......
+3|X..==...
+4|O.......
+5|X...=...
+6|O.......
+7|....=...
+
+Player X under AI control plays: x = 0, y = 7
+
+i	Evaluation time: 1.0000076s
+ii	Number of evaluated states: 28183
+iii	Evaluations by depth: {6: 28090, 4: 9, 5: 16, 3: 30, 1: 38}
+iv	Average evaluation depth: 6.0
+iv	Average recursion depth: 5.9
+
+move 7: 
+
+  ABCDEFGH
+ +--------
+0|X.......
+1|=......=
+2|O.......
+3|X..==...
+4|O.......
+5|X...=...
+6|O.......
+7|X...=...
+
+Player O under AI control plays: x = 1, y = 0
+
+i	Evaluation time: 0.5633991s
+ii	Number of evaluated states: 8790
+iii	Evaluations by depth: {6: 6532, 4: 10, 5: 2248}
+iv	Average evaluation depth: 5.7
+iv	Average recursion depth: 5.3
+
+move 8: 
+
+  ABCDEFGH
+ +--------
+0|XO......
+1|=......=
+2|O.......
+3|X..==...
+4|O.......
+5|X...=...
+6|O.......
+7|X...=...
+
+Player X under AI control plays: x = 1, y = 1
+
+i	Evaluation time: 0.3620574s
+ii	Number of evaluated states: 8375
+iii	Evaluations by depth: {6: 6210, 4: 11, 5: 2154}
+iv	Average evaluation depth: 5.7
+iv	Average recursion depth: 5.3
+
+move 9: 
+
+  ABCDEFGH
+ +--------
+0|XO......
+1|=X.....=
+2|O.......
+3|X..==...
+4|O.......
+5|X...=...
+6|O.......
+7|X...=...
+
+Player O under AI control plays: x = 1, y = 2
+
+i	Evaluation time: 0.1230097s
+ii	Number of evaluated states: 2028
+iii	Evaluations by depth: {6: 1980, 4: 1, 3: 47}
+iv	Average evaluation depth: 5.9
+iv	Average recursion depth: 5.8
+
+move 10: 
+
+  ABCDEFGH
+ +--------
+0|XO......
+1|=X.....=
+2|OO......
+3|X..==...
+4|O.......
+5|X...=...
+6|O.......
+7|X...=...
+
+Player X under AI control plays: x = 1, y = 3
+
+i	Evaluation time: 0.3299835s
+ii	Number of evaluated states: 7489
+iii	Evaluations by depth: {6: 5547, 4: 53, 5: 1888, 2: 1}
+iv	Average evaluation depth: 5.7
+iv	Average recursion depth: 5.3
+
+move 11: 
+
+  ABCDEFGH
+ +--------
+0|XO......
+1|=X.....=
+2|OO......
+3|XX.==...
+4|O.......
+5|X...=...
+6|O.......
+7|X...=...
+
+Player O under AI control plays: x = 2, y = 0
+
+i	Evaluation time: 1.0012262s
+ii	Number of evaluated states: 29244
+iii	Evaluations by depth: {6: 28930, 5: 181, 4: 41, 3: 44, 2: 2, 1: 42, 0: 4}
+iv	Average evaluation depth: 6.0
+iv	Average recursion depth: 5.9
+
+move 12: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=X.....=
+2|OO......
+3|XX.==...
+4|O.......
+5|X...=...
+6|O.......
+7|X...=...
+
+Player X under AI control plays: x = 1, y = 4
+
+i	Evaluation time: 0.0710025s
+ii	Number of evaluated states: 1687
+iii	Evaluations by depth: {6: 1640, 4: 3, 3: 42, 2: 2}
+iv	Average evaluation depth: 5.9
+iv	Average recursion depth: 5.8
+
+move 13: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=X.....=
+2|OO......
+3|XX.==...
+4|OX......
+5|X...=...
+6|O.......
+7|X...=...
+
+Player O under AI control plays: x = 2, y = 1
+
+i	Evaluation time: 1.0010395s
+ii	Number of evaluated states: 70644
+iii	Evaluations by depth: {1: 42, 5: 68, 6: 70413, 4: 35, 3: 43, 2: 41, 0: 2}
+iv	Average evaluation depth: 6.0
+iv	Average recursion depth: 5.9
+
+move 14: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OO......
+3|XX.==...
+4|OX......
+5|X...=...
+6|O.......
+7|X...=...
+
+Player X under AI control plays: x = 1, y = 5
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 15: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OO......
+3|XX.==...
+4|OX......
+5|XX..=...
+6|O.......
+7|X...=...
+
+Player O under AI control plays: x = 2, y = 2
+
+i	Evaluation time: 0.0010564s
+ii	Number of evaluated states: 43
+iii	Evaluations by depth: {1: 43}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 16: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OOO.....
+3|XX.==...
+4|OX......
+5|XX..=...
+6|O.......
+7|X...=...
+
+Player X under AI control plays: x = 1, y = 6
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 17: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OOO.....
+3|XX.==...
+4|OX......
+5|XX..=...
+6|OX......
+7|X...=...
+
+Player O under AI control plays: x = 1, y = 7
+
+i	Evaluation time: 0.002012s
+ii	Number of evaluated states: 41
+iii	Evaluations by depth: {1: 41}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 18: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OOO.....
+3|XX.==...
+4|OX......
+5|XX..=...
+6|OX......
+7|XO..=...
+
+Player X under AI control plays: x = 2, y = 3
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 19: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OOO.....
+3|XXX==...
+4|OX......
+5|XX..=...
+6|OX......
+7|XO..=...
+
+Player O under AI control plays: x = 2, y = 4
+
+i	Evaluation time: 0.0009842s
+ii	Number of evaluated states: 39
+iii	Evaluations by depth: {1: 39}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 20: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OOO.....
+3|XXX==...
+4|OXO.....
+5|XX..=...
+6|OX......
+7|XO..=...
+
+Player X under AI control plays: x = 2, y = 5
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 21: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OOO.....
+3|XXX==...
+4|OXO.....
+5|XXX.=...
+6|OX......
+7|XO..=...
+
+Player O under AI control plays: x = 2, y = 6
+
+i	Evaluation time: 0.0020552s
+ii	Number of evaluated states: 37
+iii	Evaluations by depth: {1: 37}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 22: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OOO.....
+3|XXX==...
+4|OXO.....
+5|XXX.=...
+6|OXO.....
+7|XO..=...
+
+Player X under AI control plays: x = 2, y = 7
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 23: 
+
+  ABCDEFGH
+ +--------
+0|XOO.....
+1|=XO....=
+2|OOO.....
+3|XXX==...
+4|OXO.....
+5|XXX.=...
+6|OXO.....
+7|XOX.=...
+
+Player O under AI control plays: x = 3, y = 0
+
+i	Evaluation time: 0.0009966s
+ii	Number of evaluated states: 35
+iii	Evaluations by depth: {1: 35}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 24: 
+
+  ABCDEFGH
+ +--------
+0|XOOO....
+1|=XO....=
+2|OOO.....
+3|XXX==...
+4|OXO.....
+5|XXX.=...
+6|OXO.....
+7|XOX.=...
+
+Player X under AI control plays: x = 3, y = 1
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 25: 
+
+  ABCDEFGH
+ +--------
+0|XOOO....
+1|=XOX...=
+2|OOO.....
+3|XXX==...
+4|OXO.....
+5|XXX.=...
+6|OXO.....
+7|XOX.=...
+
+Player O under AI control plays: x = 3, y = 2
+
+i	Evaluation time: 0.0009518s
+ii	Number of evaluated states: 33
+iii	Evaluations by depth: {1: 33}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 26: 
+
+  ABCDEFGH
+ +--------
+0|XOOO....
+1|=XOX...=
+2|OOOO....
+3|XXX==...
+4|OXO.....
+5|XXX.=...
+6|OXO.....
+7|XOX.=...
+
+Player X under AI control plays: x = 3, y = 4
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 27: 
+
+  ABCDEFGH
+ +--------
+0|XOOO....
+1|=XOX...=
+2|OOOO....
+3|XXX==...
+4|OXOX....
+5|XXX.=...
+6|OXO.....
+7|XOX.=...
+
+Player O under AI control plays: x = 3, y = 5
+
+i	Evaluation time: 0.0010128s
+ii	Number of evaluated states: 31
+iii	Evaluations by depth: {1: 31}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 28: 
+
+  ABCDEFGH
+ +--------
+0|XOOO....
+1|=XOX...=
+2|OOOO....
+3|XXX==...
+4|OXOX....
+5|XXXO=...
+6|OXO.....
+7|XOX.=...
+
+Player X under AI control plays: x = 3, y = 6
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 29: 
+
+  ABCDEFGH
+ +--------
+0|XOOO....
+1|=XOX...=
+2|OOOO....
+3|XXX==...
+4|OXOX....
+5|XXXO=...
+6|OXOX....
+7|XOX.=...
+
+Player O under AI control plays: x = 3, y = 7
+
+i	Evaluation time: 0.0009966s
+ii	Number of evaluated states: 29
+iii	Evaluations by depth: {1: 29}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 30: 
+
+  ABCDEFGH
+ +--------
+0|XOOO....
+1|=XOX...=
+2|OOOO....
+3|XXX==...
+4|OXOX....
+5|XXXO=...
+6|OXOX....
+7|XOXO=...
+
+Player X under AI control plays: x = 4, y = 0
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 31: 
+
+  ABCDEFGH
+ +--------
+0|XOOOX...
+1|=XOX...=
+2|OOOO....
+3|XXX==...
+4|OXOX....
+5|XXXO=...
+6|OXOX....
+7|XOXO=...
+
+Player O under AI control plays: x = 4, y = 1
+
+i	Evaluation time: 0.0009871s
+ii	Number of evaluated states: 27
+iii	Evaluations by depth: {1: 27}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 32: 
+
+  ABCDEFGH
+ +--------
+0|XOOOX...
+1|=XOXO..=
+2|OOOO....
+3|XXX==...
+4|OXOX....
+5|XXXO=...
+6|OXOX....
+7|XOXO=...
+
+Player X under AI control plays: x = 4, y = 2
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 33: 
+
+  ABCDEFGH
+ +--------
+0|XOOOX...
+1|=XOXO..=
+2|OOOOX...
+3|XXX==...
+4|OXOX....
+5|XXXO=...
+6|OXOX....
+7|XOXO=...
+
+Player O under AI control plays: x = 4, y = 4
+
+i	Evaluation time: 0.0009866s
+ii	Number of evaluated states: 25
+iii	Evaluations by depth: {1: 25}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 34: 
+
+  ABCDEFGH
+ +--------
+0|XOOOX...
+1|=XOXO..=
+2|OOOOX...
+3|XXX==...
+4|OXOXO...
+5|XXXO=...
+6|OXOX....
+7|XOXO=...
+
+Player X under AI control plays: x = 4, y = 6
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 35: 
+
+  ABCDEFGH
+ +--------
+0|XOOOX...
+1|=XOXO..=
+2|OOOOX...
+3|XXX==...
+4|OXOXO...
+5|XXXO=...
+6|OXOXX...
+7|XOXO=...
+
+Player O under AI control plays: x = 5, y = 0
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 23
+iii	Evaluations by depth: {1: 23}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 36: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXO..
+1|=XOXO..=
+2|OOOOX...
+3|XXX==...
+4|OXOXO...
+5|XXXO=...
+6|OXOXX...
+7|XOXO=...
+
+Player X under AI control plays: x = 5, y = 1
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 37: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXO..
+1|=XOXOX.=
+2|OOOOX...
+3|XXX==...
+4|OXOXO...
+5|XXXO=...
+6|OXOXX...
+7|XOXO=...
+
+Player O under AI control plays: x = 5, y = 2
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 21
+iii	Evaluations by depth: {1: 21}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 38: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXO..
+1|=XOXOX.=
+2|OOOOXO..
+3|XXX==...
+4|OXOXO...
+5|XXXO=...
+6|OXOXX...
+7|XOXO=...
+
+Player X under AI control plays: x = 5, y = 3
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 39: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXO..
+1|=XOXOX.=
+2|OOOOXO..
+3|XXX==X..
+4|OXOXO...
+5|XXXO=...
+6|OXOXX...
+7|XOXO=...
+
+Player O under AI control plays: x = 5, y = 4
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 19
+iii	Evaluations by depth: {1: 19}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 40: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXO..
+1|=XOXOX.=
+2|OOOOXO..
+3|XXX==X..
+4|OXOXOO..
+5|XXXO=...
+6|OXOXX...
+7|XOXO=...
+
+Player X under AI control plays: x = 5, y = 5
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 41: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXO..
+1|=XOXOX.=
+2|OOOOXO..
+3|XXX==X..
+4|OXOXOO..
+5|XXXO=X..
+6|OXOXX...
+7|XOXO=...
+
+Player O under AI control plays: x = 5, y = 6
+
+i	Evaluation time: 0.0010407s
+ii	Number of evaluated states: 17
+iii	Evaluations by depth: {1: 17}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 42: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXO..
+1|=XOXOX.=
+2|OOOOXO..
+3|XXX==X..
+4|OXOXOO..
+5|XXXO=X..
+6|OXOXXO..
+7|XOXO=...
+
+Player X under AI control plays: x = 5, y = 7
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 43: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXO..
+1|=XOXOX.=
+2|OOOOXO..
+3|XXX==X..
+4|OXOXOO..
+5|XXXO=X..
+6|OXOXXO..
+7|XOXO=X..
+
+Player O under AI control plays: x = 6, y = 0
+
+i	Evaluation time: 0.0009999s
+ii	Number of evaluated states: 15
+iii	Evaluations by depth: {1: 15}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 44: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOO.
+1|=XOXOX.=
+2|OOOOXO..
+3|XXX==X..
+4|OXOXOO..
+5|XXXO=X..
+6|OXOXXO..
+7|XOXO=X..
+
+Player X under AI control plays: x = 6, y = 1
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 45: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOO.
+1|=XOXOXX=
+2|OOOOXO..
+3|XXX==X..
+4|OXOXOO..
+5|XXXO=X..
+6|OXOXXO..
+7|XOXO=X..
+
+Player O under AI control plays: x = 6, y = 2
+
+i	Evaluation time: 0.0010421s
+ii	Number of evaluated states: 13
+iii	Evaluations by depth: {1: 13}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 46: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOO.
+1|=XOXOXX=
+2|OOOOXOO.
+3|XXX==X..
+4|OXOXOO..
+5|XXXO=X..
+6|OXOXXO..
+7|XOXO=X..
+
+Player X under AI control plays: x = 6, y = 3
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 47: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOO.
+1|=XOXOXX=
+2|OOOOXOO.
+3|XXX==XX.
+4|OXOXOO..
+5|XXXO=X..
+6|OXOXXO..
+7|XOXO=X..
+
+Player O under AI control plays: x = 6, y = 4
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 11
+iii	Evaluations by depth: {1: 11}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 48: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOO.
+1|=XOXOXX=
+2|OOOOXOO.
+3|XXX==XX.
+4|OXOXOOO.
+5|XXXO=X..
+6|OXOXXO..
+7|XOXO=X..
+
+Player X under AI control plays: x = 6, y = 5
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 49: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOO.
+1|=XOXOXX=
+2|OOOOXOO.
+3|XXX==XX.
+4|OXOXOOO.
+5|XXXO=XX.
+6|OXOXXO..
+7|XOXO=X..
+
+Player O under AI control plays: x = 6, y = 6
+
+i	Evaluation time: 0.000957s
+ii	Number of evaluated states: 9
+iii	Evaluations by depth: {1: 9}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 50: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOO.
+1|=XOXOXX=
+2|OOOOXOO.
+3|XXX==XX.
+4|OXOXOOO.
+5|XXXO=XX.
+6|OXOXXOO.
+7|XOXO=X..
+
+Player X under AI control plays: x = 6, y = 7
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 51: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOO.
+1|=XOXOXX=
+2|OOOOXOO.
+3|XXX==XX.
+4|OXOXOOO.
+5|XXXO=XX.
+6|OXOXXOO.
+7|XOXO=XX.
+
+Player O under AI control plays: x = 7, y = 0
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 7
+iii	Evaluations by depth: {1: 7}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 52: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOOO
+1|=XOXOXX=
+2|OOOOXOO.
+3|XXX==XX.
+4|OXOXOOO.
+5|XXXO=XX.
+6|OXOXXOO.
+7|XOXO=XX.
+
+Player X under AI control plays: x = 7, y = 2
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 53: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOOO
+1|=XOXOXX=
+2|OOOOXOOX
+3|XXX==XX.
+4|OXOXOOO.
+5|XXXO=XX.
+6|OXOXXOO.
+7|XOXO=XX.
+
+Player O under AI control plays: x = 7, y = 3
+
+i	Evaluation time: 0.0009894s
+ii	Number of evaluated states: 5
+iii	Evaluations by depth: {1: 5}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 54: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOOO
+1|=XOXOXX=
+2|OOOOXOOX
+3|XXX==XXO
+4|OXOXOOO.
+5|XXXO=XX.
+6|OXOXXOO.
+7|XOXO=XX.
+
+Player X under AI control plays: x = 7, y = 4
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 55: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOOO
+1|=XOXOXX=
+2|OOOOXOOX
+3|XXX==XXO
+4|OXOXOOOX
+5|XXXO=XX.
+6|OXOXXOO.
+7|XOXO=XX.
+
+Player O under AI control plays: x = 7, y = 5
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 3
+iii	Evaluations by depth: {1: 3}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 56: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOOO
+1|=XOXOXX=
+2|OOOOXOOX
+3|XXX==XXO
+4|OXOXOOOX
+5|XXXO=XXO
+6|OXOXXOO.
+7|XOXO=XX.
+
+Player X under AI control plays: x = 7, y = 6
+
+i	Evaluation time: 0.0009997s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 57: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOOO
+1|=XOXOXX=
+2|OOOOXOOX
+3|XXX==XXO
+4|OXOXOOOX
+5|XXXO=XXO
+6|OXOXXOOX
+7|XOXO=XX.
+
+Player O under AI control plays: x = 7, y = 7
+
+i	Evaluation time: 0.0s
+ii	Number of evaluated states: 1
+iii	Evaluations by depth: {1: 1}
+iv	Average evaluation depth: 1.0
+iv	Average recursion depth: 1.0
+
+move 58: 
+
+  ABCDEFGH
+ +--------
+0|XOOOXOOO
+1|=XOXOXX=
+2|OOOOXOOX
+3|XXX==XXO
+4|OXOXOOOX
+5|XXXO=XXO
+6|OXOXXOOX
+7|XOXO=XXO
+
+It's a tie!
+
+6(b)i	Average evaluation time: 9.5531174s
+6(b)ii	Total heuristic evaluations: 403159
+6(b)iii	Evaluations by depth: {6: 389435, 5: 12300, 3: 360, 1: 812, 4: 197, 2: 49, 0: 6}
+6(b)iv	Average evaluation depth: 6.0
+6(b)v	Average recursion depth: 2.1
+6(b)vi	Total moves: 59

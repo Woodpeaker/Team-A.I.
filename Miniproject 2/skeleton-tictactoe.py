@@ -1,6 +1,154 @@
 # based on code from https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python
+import random
 import string
 import time
+# import pyfiglet
+
+
+def game_input():
+	# WELCOMING THE PLAYER
+	# welcome_message = pyfiglet.figlet_format("Let's Line' Em Up!")
+	# print(welcome_message)
+
+	# SETTING GAME PARAMETERS
+
+	# n is the size of the board
+	n = int(input("What board size would you like? \nnote: must be a number between 3 and 10"))
+
+	while n < 3 or n > 10:
+		print("Invalid number. Please try again")
+		n = int(input("\nWhat board size would you like? \n note: must be a number between 3 and 10"))
+	else:
+		print("\nThe board will be of size: " + str(n) + "\n")
+
+	# Show the board to the player
+	letters = list(string.ascii_uppercase)
+	print('\n  ', end="")
+	for i in range(0, n):
+		print(letters[i], end="")
+	print('\n +', end="")
+	for i in range(0, n):
+		print('-', end="")
+	print('\n')
+	for i in range(0, n):
+		print(str(i) + '|', end="")
+		for j in range(0, n):
+			print(F'.', end="")
+		print('\n')
+
+	# b is the number of blocks
+	b = int(input("How many blocks would you like? \n note: must be a number between 0 and " + str(2*n)))
+	while b < 0 or b > 2 * n:
+		print("Invalid number. Please try again")
+		b = int(input("\nHow many blocks would you like? \n note: must be a number between 0 and " + str(2*n)))
+	else:
+		print("\nThere will be " + str(b) + " block(s) \n")
+
+	# Initializing block positions
+	print("Please choose coordinates for each of the blocks:\n")
+	blocks = []
+	for i in range(0, b):
+		valid = False
+		while not valid:
+			row = int(input("Which row would you like block " + str(i) + " to be on?"))
+			if row < 0 or row >= n:
+				print("Invalid row choice. Please try again")
+				row = int(input("\nWhich row would you like block " + str(i) + " to be on?"))
+			column = int(input("Which column would you like your block to be on?"))
+			if column < 0 or column >= n:
+				print("Invalid column choice. Please try again")
+				column = int(input("\nWhich column would you like your block to be on?"))
+			if (row, column) not in blocks:
+				valid = True
+			else:
+				print("\nInvalid coordinates. Please try again\n")
+		blocks += [(row, column)]
+		print("\nYour block will be at coordinate " + "(" + str(row) + ", " + letters[column] + ")\n")
+
+	# Show the board with the blocks to the player
+	print('\n  ', end="")
+	for i in range(0, n):
+		print(letters[i], end="")
+	print('\n +', end="")
+	for i in range(0, n):
+		print('-', end="")
+	print('\n')
+	for i in range(0, n):
+		print(str(i) + '|', end="")
+		for j in range(0, n):
+			if (j, i) in blocks:
+				print(F'=', end="")
+			else:
+				print(F'.', end="")
+		print('\n')
+
+	# s is the winning line-up size
+	s = int(input("What size would you like for the winning line-up? \n note: must be a number between 3 and " + str(n)))
+	while s < 3 or s > n:
+		print("Invalid number. Please try again")
+		s = int(input(
+			"\nWhat size would you like for the winning line-up? \n note: must be a number between 3 and " + str(n)))
+	else:
+		print("\nThe winning line-up will be of size " + str(s) + "\n")
+
+	# d1 and d2 are the maximum depth of the adversarial search for player 1 and player 2
+	d1 = int(input("What would you like the maximum depth of the adversarial search to be for Player 1?"))
+	print("\nThe maximum depth of the adversarial search for Player 1 will be: " + str(d1) + "\n")
+
+	d2 = int(input("What would you like the maximum depth of the adversarial search to be for Player 2?"))
+	print("\nThe maximum depth of the adversarial search for Player 2 will be: " + str(d2) + "\n")
+
+	# t is the maximum allowed time for the program to return a move, in seconds
+	t = int(input("What would you like to set as the maximum allowed time (in seconds) for the AI to make a move?"))
+	while t <= 0:
+		print("Invalid input. Please try again")
+		t = int(input("\nWhat would you like to set as the maximum allowed time (in seconds) for the AI to make a move?"))
+	else:
+		print("\nThe maximum allowed time has been set to " + str(t) + " seconds\n")
+
+	# a1 and a2 are booleans values 0 or 1, used to force the use of either minimax (FALSE) or alphabeta (TRUE)
+	# for player 1 and player 2
+	a1 = int(input("For Player 1:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+	while a1 < 0 or a1 > 1:
+		print("Invalid choice. Please try again")
+		a1 = int(input("\nFor Player 1:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+	if not a1:
+		print("\nPlayer 1 will use minimax\n")
+		bool(a1)
+	else:
+		print("\nPlayer 1 will use alphabeta\n")
+
+	a2 = int(input("For Player 2:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+	while a2 < 0 or a2 > 1:
+		print("Invalid choice. Please try again")
+		a2 = int(input("\nFor Player 2:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+	if not a2:
+		print("\nPlayer 2 will use minimax\n")
+	else:
+		print("\nPlayer 2 will use alphabeta\n")
+
+	# m1 and m2 are booleans values 0 or 1, used to select whether the player will be HUMAN or AI, for both player 1
+	# and player 2
+	m1 = int(input("For Player 1:\nType 0 to select human.\nType 1 if you would like to select AI"))
+	while m1 < 0 or m1 > 1:
+		print("Invalid choice. Please try again")
+		m1 = int(input("\nFor Player 1:\nType 0 if you would like to select human.\nType 1 if you would like to to select AI"))
+	if not m1:
+		print("\nPlayer 1 will be human\n")
+	else:
+		print("\nPlayer 1 will be AI\n")
+
+	m2 = int(input("For Player 2:\nType 0 to select human.\nType 1 if you would like to select AI"))
+	while m2 < 0 or m2 > 1:
+		print("Invalid choice. Please try again")
+		m2 = int(input("\nFor Player 2:\nType 0 if you would like to select human.\nType 1 if you would like to to select AI"))
+	if not m2:
+		print("\nPlayer 2 will be human")
+	else:
+		print("\nPlayer 2 will be AI")
+
+	# Returning all the parameters
+	return n, b, blocks, s, d1, d2, t, a1, a2, m1, m2
 
 class Game:
 	MINIMAX = 0
@@ -9,82 +157,122 @@ class Game:
 	AI = 3
 	SIMPLE_HEURISTIC = 4
 	COMPLICATED_HEURISTIC = 5
-	def __init__(self, recommend = True):
-		self.initialize_game()
+	def __init__(self, recommend = True, blocks=[], n=3):
+		self.initialize_game(blocks=blocks, n=n)
 		self.recommend = recommend
-		
-	def initialize_game(self):
-		self.current_state = [['.','.','.'],
-							  ['.','.','.'],
-							  ['.','.','.']]
+
+	def initialize_game(self, n=3, blocks=[]):
+		self.current_state = [[0 for x in range(n)] for y in range(n)]
+		for i in range(0, n):
+			for j in range(0, n):
+				if (j, i) in blocks:
+					self.current_state[j][i] = "="
+				else:
+					self.current_state[j][i] = "."
 		# Player X always plays first
 		self.player_turn = 'X'
 
-	def draw_board(self,n=3,file=None):
+	def draw_board(self, n=3, blocks=[], file=None):
 		letters = list(string.ascii_uppercase)
 		print()
-		for y in range(0, 3):
-			for x in range(0, 3):
-				print(F'{self.current_state[x][y]}', end="")
-			print()
-		print()
+		print('\n  ', end="")
+		for i in range(0, n):
+			print(letters[i], end="")
+		print('\n +', end="")
+		for i in range(0, n):
+			print('-', end="")
+		print('\n')
+		for i in range(0, n):
+			print(str(i) + '|', end="")
+			for j in range(0, n):
+				if (j, i) in blocks:
+					print(F'=', end="")
+				else:
+					print(F'{self.current_state[j][i]}', end="")
+			print('\n')
 		if not file.closed:
 			file.write('\n  ')
-			for i in range(0, 3):
+			for i in range(0, n):
 				file.write(letters[i])
 			file.write('\n +')
-			for i in range(0, 3):
+			for i in range(0, n):
 				file.write('-')
 			file.write('\n')
-			for i in range(0, 3):
+			for i in range(0, n):
 				file.write(str(i)+'|')
-				for j in range(0, 3):
-					file.write(F'{self.current_state[j][i]}')
+				for j in range(0, n):
+					if (j, i) in blocks:
+						file.write(F'=')
+					else:
+						file.write(F'{self.current_state[j][i]}')
 				file.write('\n')
 			file.write('\n')
-		
-	def is_valid(self, px, py):
-		if px < 0 or px > 2 or py < 0 or py > 2:
+
+	def is_valid(self, px, py, n=3):
+		if px < 0 or px > n-1 or py < 0 or py > n-1:
 			return False
 		elif self.current_state[px][py] != '.':
 			return False
 		else:
 			return True
 
-	def is_end(self):
+	def is_end(self, n=3, s=3):
 		# Vertical win
-		for i in range(0, 3):
-			if (self.current_state[0][i] != '.' and
-				self.current_state[0][i] == self.current_state[1][i] and
-				self.current_state[1][i] == self.current_state[2][i]):
-				return self.current_state[0][i]
+		for i in range(0, n):
+			for j in range(0, n-s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j+k][i] != self.current_state[j][i]:
+							winner = False
+							break
+					if winner:
+						return self.current_state[j][i]
 		# Horizontal win
-		for i in range(0, 3):
-			if (self.current_state[i] == ['X', 'X', 'X']):
-				return 'X'
-			elif (self.current_state[i] == ['O', 'O', 'O']):
-				return 'O'
+		for i in range(0, n-s):
+			for j in range(0, n):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j][i+k] != self.current_state[j][i]:
+							winner = False
+							break
+					if winner:
+						return self.current_state[j][i]
+		winner = True
 		# Main diagonal win
-		if (self.current_state[0][0] != '.' and
-			self.current_state[0][0] == self.current_state[1][1] and
-			self.current_state[0][0] == self.current_state[2][2]):
-			return self.current_state[0][0]
+		for i in range(0, n-s):
+			for j in range(0, n-s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					for k in range(1, s):
+						if self.current_state[j+k][i+k] != self.current_state[j][i]:
+							winner = False
+							break
+					if winner:
+						return self.current_state[j][i]
 		# Second diagonal win
-		if (self.current_state[0][2] != '.' and
-			self.current_state[0][2] == self.current_state[1][1] and
-			self.current_state[0][2] == self.current_state[2][0]):
-			return self.current_state[0][2]
+		for i in range(s, n):
+			for j in range(0, n-s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j+k][i-k] != self.current_state[j][i]:
+							winner = False
+							break
+					if winner:
+						return self.current_state[j][i]
+
 		# Is whole board full?
-		for i in range(0, 3):
-			for j in range(0, 3):
+		for i in range(0, n):
+			for j in range(0, n):
 				# There's an empty field, we continue the game
 				if (self.current_state[i][j] == '.'):
 					return None
 		# It's a tie!
 		return '.'
 
-	def check_end(self, file=None):
-		self.result = self.is_end()
+	def check_end(self, file=None, n=3, s=3):
+		self.result = self.is_end(n=n, s=s)
 		# Printing the appropriate message if the game has ended
 		if self.result != None:
 			if self.result == 'X':
@@ -99,12 +287,12 @@ class Game:
 			self.initialize_game()
 		return self.result
 
-	def input_move(self):
+	def input_move(self, n=3):
 		while True:
 			print(F'Player {self.player_turn}, enter your move:')
 			px = int(input('enter the x coordinate: '))
 			py = int(input('enter the y coordinate: '))
-			if self.is_valid(px, py):
+			if self.is_valid(px, py, n=n):
 				return (px,py)
 			else:
 				print('The move is not valid! Try again.')
@@ -116,73 +304,120 @@ class Game:
 			self.player_turn = 'X'
 		return self.player_turn
 
-	def simple_heuristic(self):
+	def simple_heuristic(self, n=3):
 		hScore = 0
-		for col in range(0, 3):
-			for row in range(0, 3):
+		for col in range(0, n):
+			for row in range(0, n):
 				if self.current_state[row][col] == 'X':
-					hScore += 1
-				if row < 2:
-					if self.current_state[row + 1][col] == 'O':
-						hScore += 2
-				if col < 2:
-					if self.current_state[row][col + 1] == 'O':
-						hScore += 2
+					hScore -= 8
+				if row < n-1:
+					if self.current_state[row + 1][col] == 'O' or self.current_state[row + 1][col] == '=':
+						hScore += 1
+				if col < n-1:
+					if self.current_state[row][col + 1] == 'O' or self.current_state[row][col+1] == '=':
+						hScore += 1
 				if row > 0:
-					if self.current_state[row - 1][col] == 'O':
-						hScore += 2
+					if self.current_state[row - 1][col] == 'O' or self.current_state[row - 1][col] == '=':
+						hScore += 1
 				if col > 0:
-					if self.current_state[row][col - 1] == 'O':
-						hScore += 2
+					if self.current_state[row][col - 1] == 'O' or self.current_state[row][col-1] == '=':
+						hScore += 1
 				if col > 0 and row > 0:
-					if self.current_state[row - 1][col - 1] == 'O':
-						hScore += 2
-				if col > 0 and row < 2:
-					if self.current_state[row + 1][col - 1] == 'O':
-						hScore += 2
-				if col < 2 and row > 0:
-					if self.current_state[row - 1][col + 1] == 'O':
-						hScore += 2
-				if col < 2 and row < 2:
-					if self.current_state[row + 1][col + 1] == 'O':
-						hScore += 2
+					if self.current_state[row - 1][col - 1] == 'O' or self.current_state[row - 1][col-1] == '=':
+						hScore += 1
+				if col > 0 and row < n-1:
+					if self.current_state[row + 1][col - 1] == 'O' or self.current_state[row + 1][col-1] == '=':
+						hScore += 1
+				if col < n-1 and row > 0:
+					if self.current_state[row - 1][col + 1] == 'O' or self.current_state[row - 1][col+1] == '=':
+						hScore += 1
+				if col < n-1 and row < n-1:
+					if self.current_state[row + 1][col + 1] == 'O' or self.current_state[row + 1][col+1] == '=':
+						hScore += 1
 		return hScore
 
-	def complicated_heuristic(self):
+	def complicated_heuristic(self, n=3, s=3):
 		hScore = 0
+		player=''
 		# Vertical win
-		for i in range(0, 3):
-			if (self.current_state[0][i] != 'O' and
-					self.current_state[1][i] != 'O' and
-					self.current_state[2][i] != 'O'):
-				hScore += 100
-			else:
-				hScore -= 50
+		for i in range(0, n):
+			for j in range(0, n - s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					player = self.current_state[j][i]
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j + k][i] != self.current_state[j][i] and self.current_state[j + k][i] != '.':
+							winner = False
+							if player == 'X':
+								hScore += 100
+							else:
+								hScore -= 10
+							break
+					if winner:
+						if player == 'X':
+							hScore -= 100
+						else:
+							hScore += 1000
 		# Horizontal win
-		for i in range(0, 3):
-			if (self.current_state[i][0] != 'O' and
-					self.current_state[i][1] != 'O' and
-					self.current_state[i][2] != 'O'):
-				hScore += 100
-			else:
-				hScore -= 50
+		for i in range(0, n - s):
+			for j in range(0, n):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					player = self.current_state[j][i]
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j][i + k] != self.current_state[j][i] and self.current_state[j][i + k] != '.':
+							winner = False
+							if player == 'X':
+								hScore += 100
+							else:
+								hScore -= 10
+							break
+					if winner:
+						if player == 'X':
+							hScore -= 100
+						else:
+							hScore += 1000
+		winner = True
 		# Main diagonal win
-		if (self.current_state[0][0] != 'O' and
-				self.current_state[1][1] != 'O' and
-				self.current_state[2][2] != 'O'):
-			hScore += 100
-		else:
-			hScore -= 50
+		for i in range(0, n - s):
+			for j in range(0, n - s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					player = self.current_state[j][i]
+					for k in range(1, s):
+						if self.current_state[j + k][i + k] != self.current_state[j][i] and self.current_state[j + k][i + k] != '.':
+							winner = False
+							if player == 'X':
+								hScore += 100
+							else:
+								hScore -= 10
+							break
+					if winner:
+						if player == 'X':
+							hScore -= 100
+						else:
+							hScore += 1000
 		# Second diagonal win
-		if (self.current_state[0][2] != 'O' and
-				self.current_state[1][1] == 'O' and
-				self.current_state[2][0] == 'O'):
-			hScore += 100
-		else:
-			hScore -= 50
+		for i in range(s, n):
+			for j in range(0, n - s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					player = self.current_state[j][i]
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j + k][i - k] != self.current_state[j][i] and self.current_state[j + k][i - k] != '.':
+							winner = False
+							if player == 'X':
+								hScore += 100
+							else:
+								hScore -= 10
+							break
+					if winner:
+						if player == 'X':
+							hScore -= 100
+						else:
+							hScore += 1000
 		return hScore
 
-	def minimax(self, max=False,maxDepth=None,depth=0,e=None,count=0,depthArray={},recursionCount=0,totalRecDepth=0):
+	def minimax(self, max=False, maxDepth=None, depth=0, e=None, count=0,depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3, start=0, t=None):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
@@ -195,13 +430,13 @@ class Game:
 		value = 2
 		if max:
 			value = -2
-		if e == self.SIMPLE_HEURISTIC:
-			value = self.simple_heuristic()
-		elif e == self.COMPLICATED_HEURISTIC:
-			value = self.complicated_heuristic()
+		# if e == self.SIMPLE_HEURISTIC:
+		# 	value = self.simple_heuristic()
+		# elif e == self.COMPLICATED_HEURISTIC:
+		# 	value = self.complicated_heuristic()
 		x = None
 		y = None
-		result = self.is_end()
+		result = self.is_end(n=n, s=s)
 		if result != None and e == self.SIMPLE_HEURISTIC:
 			value = self.simple_heuristic()
 			if depth in depthArray:
@@ -224,12 +459,12 @@ class Game:
 			return (1, x, y,count,depthArray,recursionCount,totalRecDepth)
 		elif result == '.':
 			return (0, x, y,count,depthArray,recursionCount,totalRecDepth)
-		for i in range(0, 3):
-			for j in range(0, 3):
+		for i in range(0, n):
+			for j in range(0, n):
 				if self.current_state[i][j] == '.':
 					if max:
 						self.current_state[i][j] = 'O'
-						if depth == maxDepth:
+						if depth == maxDepth or time.time() - start >= t:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
 								if depth in depthArray:
@@ -245,7 +480,7 @@ class Game:
 									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _,c,d,rc,trd) = self.minimax(max=False,e=e,maxDepth=maxDepth,depth=depth+1)
+							(v, _, _,c,d,rc,trd) = self.minimax(max=False, e=e, maxDepth=maxDepth, depth=depth+1, n=n, start=start, t=t)
 							recursionCount += rc
 							totalRecDepth += trd
 							count += c
@@ -255,7 +490,7 @@ class Game:
 							y = j
 					else:
 						self.current_state[i][j] = 'X'
-						if depth == maxDepth:
+						if depth == maxDepth or time.time() - start >= t:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
 								if depth in depthArray:
@@ -271,7 +506,7 @@ class Game:
 									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _, c,d,rc,trd) = self.minimax(max=True, e=e, maxDepth=maxDepth, depth=depth + 1)
+							(v, _, _, c,d,rc,trd) = self.minimax(max=True, e=e, maxDepth=maxDepth, depth=depth + 1, n=n, start=start, t=t)
 							recursionCount += rc
 							totalRecDepth += trd
 							count += c
@@ -282,7 +517,7 @@ class Game:
 					self.current_state[i][j] = '.'
 		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
-	def alphabeta(self, alpha=-2, beta=2, max=False,maxDepth=None,depth=0,e=None,count=0,depthArray={},recursionCount=0,totalRecDepth=0):
+	def alphabeta(self, alpha=0, beta=100, max=False, maxDepth=None, depth=0, e=None, count=0, depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3, start=0, t=None):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
@@ -301,7 +536,7 @@ class Game:
 			value = self.complicated_heuristic()
 		x = None
 		y = None
-		result = self.is_end()
+		result = self.is_end(n=n, s=s)
 		if result != None and e == self.SIMPLE_HEURISTIC:
 			value = self.simple_heuristic()
 			if depth in depthArray:
@@ -324,12 +559,12 @@ class Game:
 			return (1, x, y, count, depthArray, recursionCount, totalRecDepth)
 		elif result == '.':
 			return (0, x, y, count, depthArray, recursionCount, totalRecDepth)
-		for i in range(0, 3):
-			for j in range(0, 3):
+		for i in range(0, n):
+			for j in range(0, n):
 				if self.current_state[i][j] == '.':
 					if max:
 						self.current_state[i][j] = 'O'
-						if depth == maxDepth:
+						if depth == maxDepth or time.time() - start >= t:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
 								if depth in depthArray:
@@ -345,7 +580,7 @@ class Game:
 									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _, c, d, rc, trd) = self.alphabeta(max=False, e=e, maxDepth=maxDepth, depth=depth + 1)
+							(v, _, _, c, d, rc, trd) = self.alphabeta(max=False, e=e, maxDepth=maxDepth, depth=depth + 1, n=n, start=start, t=t)
 							recursionCount += rc
 							totalRecDepth += trd
 							count += c
@@ -355,7 +590,7 @@ class Game:
 							y = j
 					else:
 						self.current_state[i][j] = 'X'
-						if depth == maxDepth:
+						if depth == maxDepth or time.time() - start >= t:
 							if e == self.SIMPLE_HEURISTIC:
 								v = self.simple_heuristic()
 								if depth in depthArray:
@@ -371,7 +606,7 @@ class Game:
 									depthArray[depth] = 1
 								count += 1
 						else:
-							(v, _, _, c, d, rc, trd) = self.alphabeta(max=True, e=e, maxDepth=maxDepth, depth=depth + 1)
+							(v, _, _, c, d, rc, trd) = self.alphabeta(max=True, e=e, maxDepth=maxDepth, depth=depth + 1, n=n, start=start, t=t)
 							recursionCount += rc
 							totalRecDepth += trd
 							count += c
@@ -380,7 +615,7 @@ class Game:
 							x = i
 							y = j
 					self.current_state[i][j] = '.'
-					if max: 
+					if max:
 						if value >= beta:
 							return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 						if value > alpha:
@@ -392,11 +627,12 @@ class Game:
 							beta = value
 		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
-	def play(self,player_x=None,player_o=None,a1=False,a2=False,e1=None,e2=None,d1=None,d2=None,n=3,b=0,s=3,t=2):
+	def play(self,player_x=None,player_o=None,a1=False,a2=False,e1=None,e2=None,d1=None,d2=None,n=None,b=None,s=None,t=None, blocks=[]):
+		self.initialize_game(n=n,blocks=blocks)
 		fileStr=F'gameTrace-{n}{b}{s}{t}.txt'
 		file = open(fileStr, 'w')
 		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
-		file.write(F'TODO: Position of the blocks (Show array of coordinate)\n')
+		file.write(F'Position of the blocks: {blocks}\n')
 		file.write('PLayer 1: ')
 		if player_x == self.AI:
 			file.write('AI ')
@@ -441,12 +677,14 @@ class Game:
 		totalAvgRecDepth = 0
 		while True:
 			moveCounter += 1
-			self.draw_board(n=n,file=file)
-			winner = self.check_end(file=file)
+			self.draw_board(n=n, blocks=blocks, file=file)
+			winner = self.check_end(file=file, n=n, s=s)
 
 			if winner:
 				for key in totalDepthArray.keys():
 					avgTotaldepth += key * totalDepthArray[key]
+				if totalEval == 0:
+					totalEval = 1
 				avgTotaldepth /= totalEval
 				totalAvgRecDepth /=moveCounter
 				file.write(F'6(b)i\tAverage evaluation time: {totalTime}s\n')
@@ -460,22 +698,27 @@ class Game:
 			start = time.time()
 			if self.player_turn == 'X':
 				if a1:
-					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=d1)
+					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e1,maxDepth=d1, n=n, s=s, start=start, t=t)
 				else:
-					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=False,e=e1,maxDepth=d1)
+					(_, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=False,e=e1,maxDepth=d1, n=n, s=s, start=start, t=t)
 				print(f'h(n) = {_}')
 			else:
 				if a2:
-					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e2,maxDepth=d2)
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth)  = self.alphabeta(max=False,e=e2,maxDepth=d2, n=n, s=s, start=start, t=t)
 				else:
-					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=d2)
+					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=d2, n=n, s=s, start=start, t=t)
 				print(f'h(n) = {m}')
 			if x == None or y == None:
-				for i in range(0, 3):
-					for j in range(0, 3):
+				x=0
+				y=0
+				for i in range(0, n):
+					for j in range(0, n):
 						if self.current_state[i][j] == '.':
 							x = i
 							y = j
+							break
+					if self.current_state[x][y] == '.':
+						break
 			end = time.time()
 			totalTime += round(end - start, 7)
 			totalTime = round(totalTime, 7)
@@ -493,7 +736,7 @@ class Game:
 					if self.recommend:
 						print(F'Evaluation time: {round(end - start, 7)}s')
 						print(F'Recommended move: x = {x}, y = {y}')
-					(x,y) = self.input_move()
+					(x,y) = self.input_move(n=n)
 			if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
 						print(F'Evaluation time: {round(end - start, 7)}s')
 						print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
@@ -508,10 +751,10 @@ class Game:
 			self.current_state[x][y] = self.player_turn
 			self.switch_player()
 
-	def scoreboard(self, r =4,a1=False,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2):
-		g = Game(recommend=True)
+	def scoreboard(self, r =4,a1=False,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2,blocks=[]):
+		g = Game(recommend=True, blocks=blocks, n=n)
 		fileStr=F'scoreboard.txt'
-		file = open(fileStr, 'w')
+		file = open(fileStr, 'a')
 		file.write(F'n = {n}, b = {b}, s = {s}, t = {t}\n')
 		file.write(F'PLayer 1: d= {d1} a={a1}\n')
 		file.write(F'PLayer 2: d= {d2} a={a2}\n')
@@ -531,7 +774,7 @@ class Game:
 
 
 		for x in range (0,r):
-			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a1,a2=a2,e1=g.SIMPLE_HEURISTIC,e2=g.COMPLICATED_HEURISTIC,d1=d1,d2=d2,n=n,b=b,s=s,t=t)
+			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a1,a2=a2,e1=g.SIMPLE_HEURISTIC,e2=g.COMPLICATED_HEURISTIC, blocks=blocks, d1=d1,d2=d2,n=n,b=b,s=s,t=t)
 			if winner == 'X':
 				e1Wins+=1
 			elif winner== 'O':
@@ -552,7 +795,7 @@ class Game:
 
 
 		for x in range (0,r):
-			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a2,a2=a1,e1=g.COMPLICATED_HEURISTIC,e2=g.SIMPLE_HEURISTIC,d1=d2,d2=d1,n=n,b=b,s=s,t=t)
+			(winner, totalTime, totalEval, totalDepthArray, avgTotaldepth, totalAvgRecDepth, moveCounter) = self.play(player_x=Game.AI,player_o=Game.AI,a1=a2,a2=a1,e1=g.COMPLICATED_HEURISTIC,e2=g.SIMPLE_HEURISTIC,blocks=blocks, d1=d2,d2=d1,n=n,b=b,s=s,t=t)
 			if winner == 'X':
 				e2Wins+=1
 			elif winner== 'O':
@@ -574,8 +817,8 @@ class Game:
 		percentageE2= e2Wins/totalgames
 
 		file.write('\n')
-		file.write(F'Total wins for heuristic e1: {e1Wins} ({percentageE1}%) (Simple Heuristic)\n')
-		file.write(F'Total wins for heuristic e1: {e2Wins} ({percentageE2}%) (Complicated Heuristic)\n')
+		file.write(F'Total wins for heuristic e1: {e1Wins} ({percentageE1*100}%) (Simple Heuristic)\n')
+		file.write(F'Total wins for heuristic e1: {e2Wins} ({percentageE2*100}%) (Complicated Heuristic)\n')
 		file.write('\n')
 
 		file.write(F'i   Average evaluation time: {totalTimeLoop/totalgames}\n')
@@ -584,44 +827,57 @@ class Game:
 		file.write(F'iv Average evaluation depth: {avgTotalDepthLoop/totalgames}\n')
 		file.write(F'v  Average recursion depth: {totalAvgRecDepthLoop/totalgames}\n')
 		file.write(F'vi   Average moves per game: {moveCounterLoop/totalgames}\n')
+		file.write(F'------------------------------------------------------------------------------------\n')
 
-
-
-
-
+def blockGenerator(b=3,n=3):
+	blocks =[]
+	for i in range(0,b):
+		valid = False
+		while not valid:
+			coord=[(random.randint(0,n-1),random.randint(0,n-1))]
+			if coord not in blocks:
+				blocks += coord
+				valid = True
+	return blocks
 
 
 def main():
-	g = Game(recommend=True)
-	# This was for testing reason (It use default settings of a Tic-Tac-Toe game):
-	g.play(player_x=Game.AI,player_o=Game.AI,a1=False,a2=False,d1=4,d2=4,
-		   e1=Game.COMPLICATED_HEURISTIC,e2=Game.COMPLICATED_HEURISTIC,n=3,b=0,s=3,t=2)
-	g.scoreboard(r =7,a1=True,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2)
+	# n, b, blocks, s, d1, d2, t, a1, a2, m1, m2 = game_input()
+	# g = Game(recommend=True, blocks=blocks, n=n)
+	# g.play(player_x=Game.AI, player_o=Game.AI, a1=a1,  a2=a2, d1=d1, d2=d2, e1=Game.SIMPLE_HEURISTIC, e2=Game.SIMPLE_HEURISTIC, n=n, b=b, s=s, t=t, blocks=blocks)
+	# g.scoreboard(r =7,a1=True,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2)
+
 	# 2.6 Experiments and Analysis (Uncomment when Input part is done)
 	# 1
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=5)
-	# # 2
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=4, b=4, s=3, t=1)
-	# # 3
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=1)
-	# # 4
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=5, b=4, s=4, t=5)
-	# # 5
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=1)
-	# # 6
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=2, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=5, s=5, t=5)
-	# # 7
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=1)
-	# # 8
-	# g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=6, d2=6,
-	# 	   e1=Game.SIMPLE_HEURISTIC, e2=Game.COMPLICATED_HEURISTIC, n=8, b=6, s=5, t=5)
+	g = Game(recommend=True, blocks=[(0, 0), (0, 3), (3, 0), (3, 3)], n=4)
+	g.scoreboard(r=10,a1=False, a2=False,blocks=[(0,0),(0,3),(3,0),(3,3)], d1=6, d2=6,  n=4, b=4, s=3, t=5)
+	# 2
+	g = Game(recommend=True, blocks=[(0,0),(0,3),(3,0),(3,3)], n=4)
+	g.scoreboard(r=10, blocks=[(0,0),(0,3),(3,0),(3,3)], a1=True, a2=True, d1=6, d2=6, n=4, b=4, s=3, t=1)
+	# 3
+	blocks=blockGenerator(b=4,n=5)
+	g = Game(recommend=True, blocks=blocks, n=5)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=2, d2=6,  n=5, b=4, s=4, t=1)
+	# 4
+	blocks = blockGenerator(b=4, n=5)
+	g = Game(recommend=True,blocks=blocks, n=5)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=6, d2=6, n=5, b=4, s=4, t=5)
+	# 5
+	blocks = blockGenerator(b=5, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10,blocks=blocks, a1=True, a2=True, d1=2, d2=6,n=8, b=5, s=5, t=1)
+	# 6
+	blocks = blockGenerator(b=5, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10,blocks=blocks,a1=True, a2=True, d1=2, d2=6, n=8, b=5, s=5, t=5)
+	# 7
+	blocks = blockGenerator(b=6, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=6, d2=6, n=8, b=6, s=5, t=1)
+	# 8
+	blocks = blockGenerator(b=6, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10, blocks=blocks,a1=True, a2=True, d1=6, d2=6,  n=8, b=6, s=5, t=5)
 
 
 
