@@ -922,37 +922,37 @@ def main():
 	g.play(player_x=p1, player_o=p2, a1=a1,  a2=a2, d1=d1, d2=d2, e1=Game.SIMPLE_HEURISTIC, e2=Game.SIMPLE_HEURISTIC, n=n, b=b, s=s, t=t, blocks=blocks)
 	# g.scoreboard(r =7,a1=True,a2=False,d1=4,d2=4,n=3,b=0,s=3,t=2)
 
-	# 2.6 Experiments and Analysis (Uncomment when Input part is done)
+	# 2.6 Experiments and Analysis
 	# 1
-	# g = Game(recommend=True, blocks=[(0, 0), (0, 3), (3, 0), (3, 3)], n=4)
-	# g.scoreboard(r=10,a1=False, a2=False,blocks=[(0,0),(0,3),(3,0),(3,3)], d1=6, d2=6,  n=4, b=4, s=3, t=5)
-	# # 2
-	# g = Game(recommend=True, blocks=[(0,0),(0,3),(3,0),(3,3)], n=4)
-	# g.scoreboard(r=10, blocks=[(0,0),(0,3),(3,0),(3,3)], a1=True, a2=True, d1=6, d2=6, n=4, b=4, s=3, t=1)
-	# # 3
-	# blocks=blockGenerator(b=4,n=5)
-	# g = Game(recommend=True, blocks=blocks, n=5)
-	# g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=2, d2=6,  n=5, b=4, s=4, t=1)
-	# # 4
-	# blocks = blockGenerator(b=4, n=5)
-	# g = Game(recommend=True,blocks=blocks, n=5)
-	# g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=6, d2=6, n=5, b=4, s=4, t=5)
-	# # 5
-	# blocks = blockGenerator(b=5, n=8)
-	# g = Game(recommend=True, blocks=blocks, n=8)
-	# g.scoreboard(r=10,blocks=blocks, a1=True, a2=True, d1=2, d2=6,n=8, b=5, s=5, t=1)
-	# # 6
-	# blocks = blockGenerator(b=5, n=8)
-	# g = Game(recommend=True, blocks=blocks, n=8)
-	# g.scoreboard(r=10,blocks=blocks,a1=True, a2=True, d1=2, d2=6, n=8, b=5, s=5, t=5)
-	# # 7
-	# blocks = blockGenerator(b=6, n=8)
-	# g = Game(recommend=True, blocks=blocks, n=8)
-	# g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=6, d2=6, n=8, b=6, s=5, t=1)
-	# # 8
-	# blocks = blockGenerator(b=6, n=8)
-	# g = Game(recommend=True, blocks=blocks, n=8)
-	# g.scoreboard(r=10, blocks=blocks,a1=True, a2=True, d1=6, d2=6,  n=8, b=6, s=5, t=5)
+	g = Game(recommend=True, blocks=[(0, 0), (0, 3), (3, 0), (3, 3)], n=4)
+	g.scoreboard(r=10,a1=False, a2=False,blocks=[(0,0),(0,3),(3,0),(3,3)], d1=6, d2=6,  n=4, b=4, s=3, t=5)
+	# 2
+	g = Game(recommend=True, blocks=[(0,0),(0,3),(3,0),(3,3)], n=4)
+	g.scoreboard(r=10, blocks=[(0,0),(0,3),(3,0),(3,3)], a1=True, a2=True, d1=6, d2=6, n=4, b=4, s=3, t=1)
+	# 3
+	blocks=blockGenerator(b=4,n=5)
+	g = Game(recommend=True, blocks=blocks, n=5)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=2, d2=6,  n=5, b=4, s=4, t=1)
+	# 4
+	blocks = blockGenerator(b=4, n=5)
+	g = Game(recommend=True,blocks=blocks, n=5)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=6, d2=6, n=5, b=4, s=4, t=5)
+	# 5
+	blocks = blockGenerator(b=5, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10,blocks=blocks, a1=True, a2=True, d1=2, d2=6,n=8, b=5, s=5, t=1)
+	# 6
+	blocks = blockGenerator(b=5, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10,blocks=blocks,a1=True, a2=True, d1=2, d2=6, n=8, b=5, s=5, t=5)
+	# 7
+	blocks = blockGenerator(b=6, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10, blocks=blocks, a1=True, a2=True, d1=6, d2=6, n=8, b=6, s=5, t=1)
+	# 8
+	blocks = blockGenerator(b=6, n=8)
+	g = Game(recommend=True, blocks=blocks, n=8)
+	g.scoreboard(r=10, blocks=blocks,a1=True, a2=True, d1=6, d2=6,  n=8, b=6, s=5, t=5)
 
 
 
