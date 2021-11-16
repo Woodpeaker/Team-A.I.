@@ -348,15 +348,15 @@ class Game:
 						if self.current_state[j + k][i] != self.current_state[j][i] and self.current_state[j + k][i] != '.':
 							winner = False
 							if player == 'X':
-								hScore += 1000
+								hScore += 100
 							else:
-								hScore += 10
+								hScore -= 10
 							break
 					if winner:
 						if player == 'X':
-							hScore += 10
+							hScore -= 100
 						else:
-							hScore += 100
+							hScore += 1000
 		# Horizontal win
 		for i in range(0, n - s):
 			for j in range(0, n):
@@ -367,15 +367,15 @@ class Game:
 						if self.current_state[j][i + k] != self.current_state[j][i] and self.current_state[j][i + k] != '.':
 							winner = False
 							if player == 'X':
-								hScore += 1000
+								hScore += 100
 							else:
-								hScore += 10
+								hScore -= 10
 							break
 					if winner:
 						if player == 'X':
-							hScore += 10
+							hScore -= 100
 						else:
-							hScore += 100
+							hScore += 1000
 		winner = True
 		# Main diagonal win
 		for i in range(0, n - s):
@@ -386,15 +386,15 @@ class Game:
 						if self.current_state[j + k][i + k] != self.current_state[j][i] and self.current_state[j + k][i + k] != '.':
 							winner = False
 							if player == 'X':
-								hScore += 1000
+								hScore += 100
 							else:
-								hScore += 10
+								hScore -= 10
 							break
 					if winner:
 						if player == 'X':
-							hScore += 10
+							hScore -= 100
 						else:
-							hScore += 100
+							hScore += 1000
 		# Second diagonal win
 		for i in range(s, n):
 			for j in range(0, n - s):
@@ -407,13 +407,13 @@ class Game:
 							if player == 'X':
 								hScore += 100
 							else:
-								hScore += 10
+								hScore -= 10
 							break
 					if winner:
 						if player == 'X':
-							hScore += 10
+							hScore -= 100
 						else:
-							hScore += 100
+							hScore += 1000
 		return hScore
 
 	def minimax(self, max=False, maxDepth=None, depth=0, e=None, count=0,depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3, start=0, t=None):
