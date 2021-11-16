@@ -308,65 +308,112 @@ class Game:
 		for col in range(0, n):
 			for row in range(0, n):
 				if self.current_state[row][col] == 'X':
-					hScore += 1
+					hScore -= 8
 				if row < n-1:
 					if self.current_state[row + 1][col] == 'O' or self.current_state[row + 1][col] == '=':
-						hScore += 2
+						hScore += 1
 				if col < n-1:
 					if self.current_state[row][col + 1] == 'O' or self.current_state[row][col+1] == '=':
-						hScore += 2
+						hScore += 1
 				if row > 0:
 					if self.current_state[row - 1][col] == 'O' or self.current_state[row - 1][col] == '=':
-						hScore += 2
+						hScore += 1
 				if col > 0:
 					if self.current_state[row][col - 1] == 'O' or self.current_state[row][col-1] == '=':
-						hScore += 2
+						hScore += 1
 				if col > 0 and row > 0:
 					if self.current_state[row - 1][col - 1] == 'O' or self.current_state[row - 1][col-1] == '=':
-						hScore += 2
+						hScore += 1
 				if col > 0 and row < n-1:
 					if self.current_state[row + 1][col - 1] == 'O' or self.current_state[row + 1][col-1] == '=':
-						hScore += 2
+						hScore += 1
 				if col < n-1 and row > 0:
 					if self.current_state[row - 1][col + 1] == 'O' or self.current_state[row - 1][col+1] == '=':
-						hScore += 2
+						hScore += 1
 				if col < n-1 and row < n-1:
 					if self.current_state[row + 1][col + 1] == 'O' or self.current_state[row + 1][col+1] == '=':
-						hScore += 2
+						hScore += 1
 		return hScore
 
 	def complicated_heuristic(self, n=3, s=3):
 		hScore = 0
+		player=''
 		# Vertical win
 		for i in range(0, n):
-			if (self.current_state[0][i] != 'O' and
-					self.current_state[1][i] != 'O' and
-					self.current_state[2][i] != 'O'):
-				hScore += 100
-			else:
-				hScore -= 50
+			for j in range(0, n - s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					player = self.current_state[j][i]
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j + k][i] != self.current_state[j][i] and self.current_state[j + k][i] != '.':
+							winner = False
+							if player == 'X':
+								hScore += 1000
+							else:
+								hScore += 10
+							break
+					if winner:
+						if player == 'X':
+							hScore += 10
+						else:
+							hScore += 100
 		# Horizontal win
-		for i in range(0, n):
-			if (self.current_state[i][0] != 'O' and
-					self.current_state[i][1] != 'O' and
-					self.current_state[i][2] != 'O'):
-				hScore += 100
-			else:
-				hScore -= 50
+		for i in range(0, n - s):
+			for j in range(0, n):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					player = self.current_state[j][i]
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j][i + k] != self.current_state[j][i] and self.current_state[j][i + k] != '.':
+							winner = False
+							if player == 'X':
+								hScore += 1000
+							else:
+								hScore += 10
+							break
+					if winner:
+						if player == 'X':
+							hScore += 10
+						else:
+							hScore += 100
+		winner = True
 		# Main diagonal win
-		if (self.current_state[0][0] != 'O' and
-				self.current_state[1][1] != 'O' and
-				self.current_state[2][2] != 'O'):
-			hScore += 100
-		else:
-			hScore -= 50
+		for i in range(0, n - s):
+			for j in range(0, n - s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					player = self.current_state[j][i]
+					for k in range(1, s):
+						if self.current_state[j + k][i + k] != self.current_state[j][i] and self.current_state[j + k][i + k] != '.':
+							winner = False
+							if player == 'X':
+								hScore += 1000
+							else:
+								hScore += 10
+							break
+					if winner:
+						if player == 'X':
+							hScore += 10
+						else:
+							hScore += 100
 		# Second diagonal win
-		if (self.current_state[0][2] != 'O' and
-				self.current_state[1][1] == 'O' and
-				self.current_state[2][0] == 'O'):
-			hScore += 100
-		else:
-			hScore -= 50
+		for i in range(s, n):
+			for j in range(0, n - s):
+				if self.current_state[j][i] != '.' and self.current_state[j][i] != "=":
+					player = self.current_state[j][i]
+					winner = True
+					for k in range(1, s):
+						if self.current_state[j + k][i - k] != self.current_state[j][i] and self.current_state[j + k][i - k] != '.':
+							winner = False
+							if player == 'X':
+								hScore += 100
+							else:
+								hScore += 10
+							break
+					if winner:
+						if player == 'X':
+							hScore += 10
+						else:
+							hScore += 100
 		return hScore
 
 	def minimax(self, max=False, maxDepth=None, depth=0, e=None, count=0,depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3, start=0, t=None):
@@ -382,10 +429,10 @@ class Game:
 		value = 2
 		if max:
 			value = -2
-		if e == self.SIMPLE_HEURISTIC:
-			value = self.simple_heuristic()
-		elif e == self.COMPLICATED_HEURISTIC:
-			value = self.complicated_heuristic()
+		# if e == self.SIMPLE_HEURISTIC:
+		# 	value = self.simple_heuristic()
+		# elif e == self.COMPLICATED_HEURISTIC:
+		# 	value = self.complicated_heuristic()
 		x = None
 		y = None
 		result = self.is_end(n=n, s=s)
@@ -469,7 +516,7 @@ class Game:
 					self.current_state[i][j] = '.'
 		return (value, x, y, count,depthArray,recursionCount,totalRecDepth)
 
-	def alphabeta(self, alpha=-2, beta=2, max=False, maxDepth=None, depth=0, e=None, count=0, depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3, start=0, t=None):
+	def alphabeta(self, alpha=0, beta=100, max=False, maxDepth=None, depth=0, e=None, count=0, depthArray={}, recursionCount=0, totalRecDepth=0, n=3, s=3, start=0, t=None):
 		# Minimizing for 'X' and maximizing for 'O'
 		# Possible values are:
 		# -1 - win for 'X'
@@ -660,11 +707,16 @@ class Game:
 					(m, x, y,nbEval,depthArray,recCount,TotalRecDepth) = self.minimax(max=True,e=e2,maxDepth=d2, n=n, s=s, start=start, t=t)
 				print(f'h(n) = {m}')
 			if x == None or y == None:
+				x=0
+				y=0
 				for i in range(0, n):
 					for j in range(0, n):
 						if self.current_state[i][j] == '.':
 							x = i
 							y = j
+							break
+					if self.current_state[x][y] == '.':
+						break
 			end = time.time()
 			totalTime += round(end - start, 7)
 			totalTime = round(totalTime, 7)
@@ -778,8 +830,8 @@ class Game:
 def main():
 	# This was for testing reason (It use default settings of a Tic-Tac-Toe game):
 	g = Game(recommend=True, blocks=[(0,0),(0,1),(1,3)], n=6)
-	g.play(player_x=Game.AI, player_o=Game.AI, a1=False, a2=False, d1=4, d2=4, e1=Game.SIMPLE_HEURISTIC,
-		   e2=Game.SIMPLE_HEURISTIC, n=6, b=3, s=4, t=2, blocks=[(0,0),(0,1),(1,3)])
+	g.play(player_x=Game.AI, player_o=Game.AI, a1=True, a2=True, d1=5, d2=5, e1=Game.COMPLICATED_HEURISTIC,
+		   e2=Game.COMPLICATED_HEURISTIC, n=6, b=3, s=4, t=2, blocks=[(0,0),(0,1),(1,3)])
 
 	# n, b, blocks, s, d1, d2, t, a1, a2, m1, m2 = game_input()
 	# g = Game(recommend=True, blocks=blocks, n=n)
