@@ -6,7 +6,7 @@ PLayer 2: d= 6 a=False
 
 
 Total wins for heuristic e1: 10 (50.0%) (Simple Heuristic)
-Total wins for heuristic e1: 1 (5.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 1 (5.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 15.966439975
 ii  Total heuristic evaluations: 2379593.75
@@ -23,7 +23,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 0 (0.0%) (Simple Heuristic)
-Total wins for heuristic e1: 0 (0.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 0 (0.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 0.0514991
 ii  Total heuristic evaluations: 1517.0
@@ -40,7 +40,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 10 (50.0%) (Simple Heuristic)
-Total wins for heuristic e1: 10 (50.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 10 (50.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 0.384893375
 ii  Total heuristic evaluations: 14656.0
@@ -57,7 +57,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 10 (50.0%) (Simple Heuristic)
-Total wins for heuristic e1: 10 (50.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 10 (50.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 1.257730605
 ii  Total heuristic evaluations: 29123.0
@@ -74,7 +74,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 10 (50.0%) (Simple Heuristic)
-Total wins for heuristic e1: 10 (50.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 10 (50.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 3.4036206150000003
 ii  Total heuristic evaluations: 66831.3
@@ -91,7 +91,7 @@ PLayer 2: d= 6 a=False
 
 
 Total wins for heuristic e1: 7 (35.0%) (Simple Heuristic)
-Total wins for heuristic e1: 0 (0.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 0 (0.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 16.181575395
 ii  Total heuristic evaluations: 2054060.4
@@ -108,7 +108,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 0 (0.0%) (Simple Heuristic)
-Total wins for heuristic e1: 0 (0.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 0 (0.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 0.06064073999999999
 ii  Total heuristic evaluations: 1517.0
@@ -125,7 +125,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 0 (0.0%) (Simple Heuristic)
-Total wins for heuristic e1: 0 (0.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 0 (0.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 0.28150076999999996
 ii  Total heuristic evaluations: 12084.0
@@ -142,7 +142,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 10 (50.0%) (Simple Heuristic)
-Total wins for heuristic e1: 0 (0.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 0 (0.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 15.60842645
 ii  Total heuristic evaluations: 978745.35
@@ -159,7 +159,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 0 (0.0%) (Simple Heuristic)
-Total wins for heuristic e1: 20 (100.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 20 (100.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 2.4701408799999998
 ii  Total heuristic evaluations: 126131.1
@@ -176,7 +176,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 10 (50.0%) (Simple Heuristic)
-Total wins for heuristic e1: 10 (50.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 10 (50.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 10.882234
 ii  Total heuristic evaluations: 280171.0
@@ -193,7 +193,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 0 (0.0%) (Simple Heuristic)
-Total wins for heuristic e1: 0 (0.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 0 (0.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 9.435855114999999
 ii  Total heuristic evaluations: 397328.55
@@ -210,7 +210,7 @@ PLayer 2: d= 6 a=True
 
 
 Total wins for heuristic e1: 0 (0.0%) (Simple Heuristic)
-Total wins for heuristic e1: 0 (0.0%) (Complicated Heuristic)
+Total wins for heuristic e2: 0 (0.0%) (Complicated Heuristic)
 
 i   Average evaluation time: 33.53615483
 ii  Total heuristic evaluations: 705183.2
