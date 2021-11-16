@@ -12,13 +12,18 @@ def game_input():
 	# SETTING GAME PARAMETERS
 
 	# n is the size of the board
-	n = int(input("What board size would you like? \nnote: must be a number between 3 and 10"))
-
-	while n < 3 or n > 10:
-		print("Invalid number. Please try again")
-		n = int(input("\nWhat board size would you like? \n note: must be a number between 3 and 10"))
-	else:
-		print("\nThe board will be of size: " + str(n) + "\n")
+	while True:
+		try:
+			n = int(input("What board size would you like? \nnote: must be a number between 3 and 10"))
+			while n < 3 or n > 10:
+				print("Invalid number. Please try again")
+				n = int(input("\nWhat board size would you like? \n note: must be a number between 3 and 10"))
+		except ValueError:
+			print("Invalid. Please try again\n")
+			continue
+		else:
+			print("\nThe board will be of size: " + str(n) + "\n")
+			break
 
 	# Show the board to the player
 	letters = list(string.ascii_uppercase)
@@ -36,33 +41,48 @@ def game_input():
 		print('\n')
 
 	# b is the number of blocks
-	b = int(input("How many blocks would you like? \n note: must be a number between 0 and " + str(2*n)))
-	while b < 0 or b > 2 * n:
-		print("Invalid number. Please try again")
-		b = int(input("\nHow many blocks would you like? \n note: must be a number between 0 and " + str(2*n)))
-	else:
-		print("\nThere will be " + str(b) + " block(s) \n")
+	while True:
+		try:
+			b = int(input("How many blocks would you like? \n note: must be a number between 0 and " + str(2*n)))
+			while b < 0 or b > 2 * n:
+				print("Invalid number. Please try again")
+				b = int(input("\nHow many blocks would you like? \n note: must be a number between 0 and " + str(2*n)))
+		except ValueError:
+			print("Invalid. Please try again\n")
+			continue
+		else:
+			print("\nThere will be " + str(b) + " block(s) \n")
+			break
 
 	# Initializing block positions
 	print("Please choose coordinates for each of the blocks:\n")
 	blocks = []
-	for i in range(0, b):
-		valid = False
-		while not valid:
-			row = int(input("Which row would you like block " + str(i) + " to be on?"))
-			if row < 0 or row >= n:
-				print("Invalid row choice. Please try again")
-				row = int(input("\nWhich row would you like block " + str(i) + " to be on?"))
-			column = int(input("Which column would you like your block to be on?"))
-			if column < 0 or column >= n:
-				print("Invalid column choice. Please try again")
-				column = int(input("\nWhich column would you like your block to be on?"))
-			if (row, column) not in blocks:
-				valid = True
-			else:
-				print("\nInvalid coordinates. Please try again\n")
-		blocks += [(row, column)]
-		print("\nYour block will be at coordinate " + "(" + str(row) + ", " + letters[column] + ")\n")
+	while True:
+		try:
+			if b == 0:
+				break
+			for i in range(0, b):
+				valid = False
+				while not valid:
+					row = int(input("Which row would you like block " + str(i) + " to be on?"))
+					if row < 0 or row >= n:
+						print("Invalid row choice. Please try again")
+						row = int(input("\nWhich row would you like block " + str(i) + " to be on?"))
+					column = int(input("Which column would you like your block to be on?"))
+					if column < 0 or column >= n:
+						print("Invalid column choice. Please try again")
+						column = int(input("\nWhich column would you like your block to be on?"))
+					if (row, column) not in blocks:
+						valid = True
+					else:
+						print("\nInvalid coordinates. Please try again\n")
+		except ValueError:
+			print("Invalid. Please try again.\n")
+			continue
+		else:
+			blocks += [(row, column)]
+			print("\nYour block will be at coordinate " + "(" + str(row) + ", " + letters[column] + ")\n")
+			break
 
 	# Show the board with the blocks to the player
 	print('\n  ', end="")
@@ -82,69 +102,116 @@ def game_input():
 		print('\n')
 
 	# s is the winning line-up size
-	s = int(input("What size would you like for the winning line-up? \n note: must be a number between 3 and " + str(n)))
-	while s < 3 or s > n:
-		print("Invalid number. Please try again")
-		s = int(input(
-			"\nWhat size would you like for the winning line-up? \n note: must be a number between 3 and " + str(n)))
-	else:
-		print("\nThe winning line-up will be of size " + str(s) + "\n")
+	while True:
+		try:
+			s = int(input("What size would you like for the winning line-up? \n note: must be a number between 3 and " + str(n)))
+			while s < 3 or s > n:
+				print("Invalid number. Please try again")
+				s = int(input(
+					"\nWhat size would you like for the winning line-up? \n note: must be a number between 3 and " + str(n)))
+		except ValueError:
+			print("Invalid. Please try again\n")
+		else:
+			print("\nThe winning line-up will be of size " + str(s) + "\n")
+			break
 
 	# d1 and d2 are the maximum depth of the adversarial search for player 1 and player 2
-	d1 = int(input("What would you like the maximum depth of the adversarial search to be for Player 1?"))
-	print("\nThe maximum depth of the adversarial search for Player 1 will be: " + str(d1) + "\n")
+	while True:
+		try:
+			d1 = int(input("What would you like the maximum depth of the adversarial search to be for Player 1?"))
+		except ValueError:
+			print("Invalid. Please try again\n")
+		else:
+			print("\nThe maximum depth of the adversarial search for Player 1 will be: " + str(d1) + "\n")
+			break
 
-	d2 = int(input("What would you like the maximum depth of the adversarial search to be for Player 2?"))
-	print("\nThe maximum depth of the adversarial search for Player 2 will be: " + str(d2) + "\n")
+	while True:
+		try:
+			d2 = int(input("What would you like the maximum depth of the adversarial search to be for Player 2?"))
+		except ValueError:
+			print("Invalid. Please try again\n")
+		else:
+			print("\nThe maximum depth of the adversarial search for Player 2 will be: " + str(d2) + "\n")
+			break
 
 	# t is the maximum allowed time for the program to return a move, in seconds
-	t = int(input("What would you like to set as the maximum allowed time (in seconds) for the AI to make a move?"))
-	while t <= 0:
-		print("Invalid input. Please try again")
-		t = int(input("\nWhat would you like to set as the maximum allowed time (in seconds) for the AI to make a move?"))
-	else:
-		print("\nThe maximum allowed time has been set to " + str(t) + " seconds\n")
+	while True:
+		try:
+			t = int(input("What would you like to set as the maximum allowed time (in seconds) for the AI to make a move?"))
+			while t <= 0:
+				print("Invalid input. Please try again")
+				t = int(input("\nWhat would you like to set as the maximum allowed time (in seconds) for the AI to make a move?"))
+		except ValueError:
+			print("Invalid. Please try again\n")
+		else:
+			print("\nThe maximum allowed time has been set to " + str(t) + " seconds\n")
+			break
 
 	# a1 and a2 are booleans values 0 or 1, used to force the use of either minimax (FALSE) or alphabeta (TRUE)
 	# for player 1 and player 2
-	a1 = int(input("For Player 1:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
-	while a1 < 0 or a1 > 1:
-		print("Invalid choice. Please try again")
-		a1 = int(input("\nFor Player 1:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
-	if not a1:
-		print("\nPlayer 1 will use minimax\n")
-		bool(a1)
-	else:
-		print("\nPlayer 1 will use alphabeta\n")
+	while True:
+		try:
+			a1 = int(input("For Player 1:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+			while a1 < 0 or a1 > 1:
+				print("Invalid choice. Please try again")
+				a1 = int(input("\nFor Player 1:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+		except ValueError:
+			print("Invalid. Please try again\n")
+		else:
+			if not a1:
+				print("\nPlayer 1 will use minimax\n")
+				bool(a1)
+			else:
+				print("\nPlayer 1 will use alphabeta\n")
+			break
 
-	a2 = int(input("For Player 2:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
-	while a2 < 0 or a2 > 1:
-		print("Invalid choice. Please try again")
-		a2 = int(input("\nFor Player 2:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
-	if not a2:
-		print("\nPlayer 2 will use minimax\n")
-	else:
-		print("\nPlayer 2 will use alphabeta\n")
+	while True:
+		try:
+			a2 = int(input("For Player 2:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+			while a2 < 0 or a2 > 1:
+				print("Invalid choice. Please try again")
+				a2 = int(input("\nFor Player 2:\nType 0 if you would like to use minimax.\nType 1 if you would like to use alphabeta"))
+		except ValueError:
+			print("Invalid. Please try again\n")
+		else:
+			if not a2:
+				print("\nPlayer 1 will use minimax\n")
+				bool(a2)
+			else:
+				print("\nPlayer 2 will use alphabeta\n")
+			break
 
 	# m1 and m2 are booleans values 0 or 1, used to select whether the player will be HUMAN or AI, for both player 1
 	# and player 2
-	m1 = int(input("For Player 1:\nType 0 to select human.\nType 1 if you would like to select AI"))
-	while m1 < 0 or m1 > 1:
-		print("Invalid choice. Please try again")
-		m1 = int(input("\nFor Player 1:\nType 0 if you would like to select human.\nType 1 if you would like to to select AI"))
-	if not m1:
-		print("\nPlayer 1 will be human\n")
-	else:
-		print("\nPlayer 1 will be AI\n")
+	while True:
+		try:
+			m1 = int(input("For Player 1:\nType 0 to select human.\nType 1 if you would like to select AI"))
+			while m1 < 0 or m1 > 1:
+				print("Invalid choice. Please try again")
+				m1 = int(input("\nFor Player 1:\nType 0 if you would like to select human.\nType 1 if you would like to to select AI"))
+		except ValueError:
+			print("Invalid. Please try again\n")
+		else:
+			if not m1:
+				print("\nPlayer 1 will be human\n")
+			else:
+				print("\nPlayer 1 will be AI\n")
+			break
 
-	m2 = int(input("For Player 2:\nType 0 to select human.\nType 1 if you would like to select AI"))
-	while m2 < 0 or m2 > 1:
-		print("Invalid choice. Please try again")
-		m2 = int(input("\nFor Player 2:\nType 0 if you would like to select human.\nType 1 if you would like to to select AI"))
-	if not m2:
-		print("\nPlayer 2 will be human")
-	else:
-		print("\nPlayer 2 will be AI")
+	while True:
+		try:
+			m2 = int(input("For Player 2:\nType 0 to select human.\nType 1 if you would like to select AI"))
+			while m2 < 0 or m2 > 1:
+				print("Invalid choice. Please try again")
+				m2 = int(input("\nFor Player 2:\nType 0 if you would like to select human.\nType 1 if you would like to to select AI"))
+		except ValueError:
+			print("Invalid. Please try again\n")
+		else:
+			if not m2:
+				print("\nPlayer 2 will be human")
+			else:
+				print("\nPlayer 2 will be AI")
+			break
 
 	# Returning all the parameters
 	return n, b, blocks, s, d1, d2, t, a1, a2, m1, m2
