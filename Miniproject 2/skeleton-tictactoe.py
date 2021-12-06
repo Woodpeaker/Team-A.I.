@@ -2,13 +2,13 @@
 import random
 import string
 import time
-# import pyfiglet
+import pyfiglet
 
 
 def game_input():
 	# WELCOMING THE PLAYER
-	# welcome_message = pyfiglet.figlet_format("Let's Line' Em Up!")
-	# print(welcome_message)
+	welcome_message = pyfiglet.figlet_format("Let's Line' Em Up!")
+	print(welcome_message)
 
 	# SETTING GAME PARAMETERS
 
