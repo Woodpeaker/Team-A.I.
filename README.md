@@ -7,3 +7,9 @@ https://github.com/Woodpeaker/Team-A.I.
   - pandas: pip install pandas
   - mathplotlib: pip install matplotlib
 - Step 4:Run each file separately, task1.py and task2.py, and wait a few seconds for the text to be generated
+
+#Mini-Project 3
+- Step 1: clone the github repo
+- Step 2: If pip is not installed, write this command to the terminal: python -m pip install -U pip
+- Step 3: write this command to the terminal: pip install --upgrade gensim
+- Step 4: Run the code
